@@ -5,7 +5,8 @@
 class Person
 {
 protected:
-    std::string name;
+    std::string firstName;
+    std::string lastName;
     std::string nickname;
     int height;
     std::string hairColor;

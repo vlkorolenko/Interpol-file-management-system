@@ -8,7 +8,7 @@
 class Criminal : public Person
 {
 private:
-
+    std::string lawKnowledge;
     std::string criminalProfession;
     std::string lastCrime;
     //CriminalOrganization* organization;
@@ -18,6 +18,6 @@ private:
 public:
     
     void inputInfo();
-    void saveToFile();
+    void saveToFile(const Criminal criminal);
 };
 
