@@ -1,2 +1,3 @@
 Vlad,Korolenko,Korol,180,Green,Brown,Smart,Ukrainian,01/11/2005,Kamianets-Podilskiy,Chernivtsy,Bad,Lawyer,Kill
-Petro,Melnyk,Petya,165,Brown,Black,Fat,Russian,11/07/1986,Moscow,Moscow,Bad,War criminal,Encroachment on the territorial integrity and sovereignty of Ukraine
+Petro,Melnyk,Petya,165,Brown,Black,Fat,Russian,11/07/1986,Moscow,Moscow,Bad,War criminal,Encroachment on the territorial integrity and sovereignty of Ukraine,qwe,qwe,0,,,,,,,,,,
+

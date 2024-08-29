@@ -2,40 +2,61 @@
 
 void Criminal::inputInfo()
 {
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        Criminal newCriminal;
 
-    Criminal newCriminal;
-    std::cout << "Enter criminal details:" << std::endl;
-    std::cout << "First name: ";
-    std::getline(std::cin, newCriminal.firstName);
-    std::cout << "Last name: ";
-    std::getline(std::cin, newCriminal.lastName);
-    std::cout << "Nickname: ";
-    std::getline(std::cin, newCriminal.nickname);
-    std::cout << "Height: ";
-    std::cin >> newCriminal.height;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::cout << "Eye color: ";
-    std::getline(std::cin, newCriminal.eyeColor);
-    std::cout << "Hair color: ";
-    std::getline(std::cin, newCriminal.hairColor);
-    std::cout << "Special features: ";
-    std::getline(std::cin, newCriminal.specialFeatures);
-    std::cout << "Nationality: ";
-    std::getline(std::cin, newCriminal.nationality);
-    std::cout << "Birth date (DD/MM/YYYY): ";
-    std::getline(std::cin, newCriminal.birthDate);
-    std::cout << "Birth place: ";
-    std::getline(std::cin, newCriminal.birthPlace);
-    std::cout << "Last residence: ";
-    std::getline(std::cin, newCriminal.lastResidence);
-    std::cout << "Knowledge of law: ";
-    std::getline(std::cin, newCriminal.lawKnowledge);
-    std::cout << "Criminal profession: ";
-    std::getline(std::cin, newCriminal.criminalProfession);
-    std::cout << "Last crime: ";
-    std::getline(std::cin, newCriminal.lastCrime);
-    saveToFile(newCriminal);
+        std::cout << "Enter criminal details:" << std::endl;
+
+        std::cout << "First name: ";
+        std::getline(std::cin, newCriminal.firstName);
+        
+        std::cout << "Last name: ";
+        std::getline(std::cin, newCriminal.lastName);
+        
+        std::cout << "Nickname: ";
+        std::getline(std::cin, newCriminal.nickname);
+        
+        std::cout << "Height: ";
+        std::cin >> newCriminal.height;
+        while (!(std::cin >> height))
+        {  // Перевірка на успішність вводу
+            std::cin.clear();  // Очищення стану помилки
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Видалення залишків вводу
+            std::cout << "Invalid input. Please enter a number: ";
+        }
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        std::cout << "Eye color: ";
+        std::getline(std::cin, newCriminal.eyeColor);
+        
+        std::cout << "Hair color: ";
+        std::getline(std::cin, newCriminal.hairColor);
+        
+        std::cout << "Special features: ";
+        std::getline(std::cin, newCriminal.specialFeatures);
+        
+        std::cout << "Nationality: ";
+        std::getline(std::cin, newCriminal.nationality);
+        
+        std::cout << "Birth date (DD/MM/YYYY): ";
+        std::getline(std::cin, newCriminal.birthDate);
+        
+        std::cout << "Birth place: ";
+        std::getline(std::cin, newCriminal.birthPlace);
+        
+        std::cout << "Last residence: ";
+        std::getline(std::cin, newCriminal.lastResidence);
+        
+        std::cout << "Knowledge of law: ";
+        std::getline(std::cin, newCriminal.lawKnowledge);
+        
+        std::cout << "Criminal profession: ";
+        std::getline(std::cin, newCriminal.criminalProfession);
+        
+        std::cout << "Last crime: ";
+        std::getline(std::cin, newCriminal.lastCrime);
+        
+        saveToFile(newCriminal);
 }
 
 void Criminal::saveToFile(const Criminal criminal)

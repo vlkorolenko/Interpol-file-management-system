@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <stdexcept>
 #include "Person.h"
 
 class Criminal : public Person
