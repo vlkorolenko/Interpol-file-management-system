@@ -47,7 +47,7 @@ void Criminal::saveToFile(const Criminal criminal)
             criminal.height << "," << criminal.eyeColor << "," << criminal.hairColor << "," << criminal.specialFeatures <<
             "," << criminal.nationality << "," << criminal.birthDate << "," << criminal.birthPlace << "," <<
             criminal.lastResidence << "," << criminal.lawKnowledge << "," << criminal.criminalProfession << "," <<
-            criminal.lastCrime;
+            criminal.lastCrime << std::endl;
         file.close();
         std::cout << "\nNew criminal added successfully." << std::endl;
     }

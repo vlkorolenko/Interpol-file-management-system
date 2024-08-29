@@ -1,5 +1,9 @@
 #include "Menu.h"
 
+void addCriminal(Criminal& criminal) {
+    criminal.inputInfo();
+}
+
 int Menu::displayMenu()
 {
     bool menuIsOpen = true;
@@ -36,7 +40,10 @@ int Menu::displayMenu()
             {
             case 1:
                 system("cls");
-                cout << "Soon\n";
+                {
+                    Criminal criminal; // Create a local object
+                    addCriminal(criminal); // Call the function to handle input
+                }
                 break;
             case 2:
                 system("cls");
