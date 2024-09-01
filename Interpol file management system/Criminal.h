@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <sstream>
 #include <stdexcept>
 #include "Person.h"
 
@@ -20,5 +21,6 @@ public:
     
     void inputInfo();
     void saveToFile(const Criminal criminal);
+
 };
 

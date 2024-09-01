@@ -17,7 +17,7 @@ protected:
     std::string birthDate;
     std::string lastResidence;
 public:
-    /*virtual void inputInfo();
-    virtual void displayInfo();*/
+    //virtual void inputInfo() const = 0;
+    //virtual void displayInfo();
     virtual ~Person() = default;
 };

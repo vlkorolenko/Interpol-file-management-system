@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <sstream>
 #include "Person.h"
 #include "Criminal.h"
 
@@ -10,5 +11,6 @@ class Menu
 {
 public:
 	int displayMenu();
+	void displayCriminals();
 };
 

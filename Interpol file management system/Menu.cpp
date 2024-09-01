@@ -1,4 +1,4 @@
-#include "Menu.h"
+п»ї#include "Menu.h"
 
 void addCriminal(Criminal& criminal) {
     criminal.inputInfo();
@@ -14,7 +14,7 @@ int Menu::displayMenu()
         {
             std::cout << "Menu:\n";
             std::cout << "1. Add New Criminal\n";
-            std::cout << "2. Update Criminal Data\n";;
+            std::cout << "2. List of criminals\n";;
             std::cout << "3. Archive Criminal\n";
             std::cout << "4. Delete Criminal After Death\n";
             std::cout << "5. View Criminal Information\n";
@@ -29,10 +29,10 @@ int Menu::displayMenu()
             int option;
             std::cin >> option;
 
-            // Перевірка на коректність введення
+            // РџРµСЂРµРІС–СЂРєР° РЅР° РєРѕСЂРµРєС‚РЅС–СЃС‚СЊ РІРІРµРґРµРЅРЅСЏ
             if (std::cin.fail() || option > 11 || option <= 0) {
-                std::cin.clear(); // очищаємо прапор помилки
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // відкидаємо некоректний ввід
+                std::cin.clear(); // РѕС‡РёС‰Р°С”РјРѕ РїСЂР°РїРѕСЂ РїРѕРјРёР»РєРё
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // РІС–РґРєРёРґР°С”РјРѕ РЅРµРєРѕСЂРµРєС‚РЅРёР№ РІРІС–Рґ
                 throw std::invalid_argument("Incorrect entry. Please try again.");
             }
 
@@ -47,7 +47,11 @@ int Menu::displayMenu()
                 break;
             case 2:
                 system("cls");
-                cout << "Soon\n";
+                displayCriminals();
+                /*{
+                    Criminal criminal;
+                    criminal.displayInfo();
+                }*/
                 break;
             case 3:
                 system("cls");
@@ -117,5 +121,69 @@ int Menu::displayMenu()
             system("cls");
         }
 
+    }
+}
+
+void Menu::displayCriminals()
+{
+    std::ifstream file("criminals.txt");
+    try
+    {
+        std::string line;
+        while (std::getline(file, line))
+        {
+            std::istringstream iss(line);
+            std::string firstName;
+            std::string lastName;
+            std::string nickname;
+            int height;
+            std::string hairColor;
+            std::string eyeColor;
+            std::string specialFeatures;
+            std::string nationality;
+            std::string birthPlace;
+            std::string birthDate;
+            std::string lastResidence;
+            std::string lawKnowledge;
+            std::string criminalProfession;
+            std::string lastCrime;
+
+            std::getline(iss, firstName, ',');
+            std::getline(iss, lastName, ',');
+            std::getline(iss, nickname, ',');
+            iss >> height;
+            iss.ignore();
+            std::getline(iss, eyeColor, ',');
+            std::getline(iss, hairColor, ',');
+            std::getline(iss, specialFeatures, ',');
+            std::getline(iss, nationality, ',');
+            std::getline(iss, birthDate, ',');
+            std::getline(iss, birthPlace, ',');
+            std::getline(iss, lastResidence, ',');
+            std::getline(iss, lawKnowledge, ',');
+            std::getline(iss, criminalProfession, ',');
+            std::getline(iss, lastCrime, ',');
+
+            std::cout << "First name: " << firstName << std::endl;
+            std::cout << "Last name: " << lastName << std::endl;
+            std::cout << "Nickname: " << nickname << std::endl;
+            std::cout << "Height: " << height << std::endl;
+            std::cout << "Eye color: " << eyeColor << std::endl;
+            std::cout << "Hair color: " << hairColor << std::endl;
+            std::cout << "Special features: " << specialFeatures << std::endl;
+            std::cout << "Nationality: " << nationality << std::endl;
+            std::cout << "Birth date: " << birthDate << std::endl;
+            std::cout << "Birth place: " << birthPlace << std::endl;
+            std::cout << "Last residence: " << lastResidence << std::endl;
+            std::cout << "Knowledge of law: " << lawKnowledge << std::endl;
+            std::cout << "Criminal profession: " << criminalProfession << std::endl;
+            std::cout << "Last crime: " << lastCrime << std::endl;
+            std::cout << "-------------\n";
+        }
+        file.close();
+    }
+    catch (const std::runtime_error& e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
     }
 }

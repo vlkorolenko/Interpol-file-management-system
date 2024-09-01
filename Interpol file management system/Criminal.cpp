@@ -1,4 +1,4 @@
-#include "Criminal.h"
+п»ї#include "Criminal.h"
 
 void Criminal::inputInfo()
 {
@@ -17,14 +17,14 @@ void Criminal::inputInfo()
         std::getline(std::cin, newCriminal.nickname);
         
         std::cout << "Height: ";
-        std::cin >> newCriminal.height;
-        while (!(std::cin >> height))
-        {  // Перевірка на успішність вводу
-            std::cin.clear();  // Очищення стану помилки
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Видалення залишків вводу
+        while (!(std::cin >> newCriminal.height))  // Р—С‡РёС‚СѓРІР°РЅРЅСЏ С‚Р° РїРµСЂРµРІС–СЂРєР° РІРІРµРґРµРЅРЅСЏ height
+        {
+            std::cin.clear();  // РћС‡РёС‰РµРЅРЅСЏ СЃС‚Р°РЅСѓ РїРѕРјРёР»РєРё
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Р’РёРґР°Р»РµРЅРЅСЏ Р·Р°Р»РёС€РєС–РІ РІРІРѕРґСѓ
             std::cout << "Invalid input. Please enter a number: ";
         }
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
 
         std::cout << "Eye color: ";
         std::getline(std::cin, newCriminal.eyeColor);
