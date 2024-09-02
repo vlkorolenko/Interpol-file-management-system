@@ -59,7 +59,7 @@ void Criminal::inputInfo()
         saveToFile(newCriminal);
 }
 
-void Criminal::saveToFile(const Criminal criminal)
+void Criminal::saveToFile(const Criminal& criminal)
 {
     std::ofstream file("criminals.txt", std::ios::app);
     if (file.is_open())
@@ -76,4 +76,75 @@ void Criminal::saveToFile(const Criminal criminal)
     {
         std::cout << "\nUnable to open file." << std::endl;
     }
+}
+
+void Criminal::archiveCriminal(const Criminal& criminal)
+{
+    std::ofstream archiveFile("archive.txt", std::ios::app);
+    if (archiveFile.is_open()) {
+        archiveFile << criminal.firstName << "," << criminal.lastName << "," << criminal.nickname << ","
+            << criminal.height << "," << criminal.eyeColor << "," << criminal.hairColor << ","
+            << criminal.specialFeatures << "," << criminal.nationality << "," << criminal.birthDate
+            << "," << criminal.birthPlace << "," << criminal.lastResidence << ","
+            << criminal.lawKnowledge << "," << criminal.criminalProfession << ","
+            << criminal.lastCrime << std::endl;
+        archiveFile.close();
+    }
+    else {
+        std::cerr << "Unable to open archive file." << std::endl;
+    }
+}
+
+void Criminal::removeFromActiveList(const std::string& lastName)
+{
+    std::ifstream inFile("criminals.txt");
+    std::ofstream tempFile("temp.txt");
+
+    if (inFile.is_open() && tempFile.is_open())
+    {
+        std::string line;
+        while (getline(inFile, line))
+        {
+            if (line.find(lastName) == std::string::npos)
+                tempFile << line << std::endl;
+        }
+        inFile.close();
+        tempFile.close();
+        remove("criminals.txt");
+        rename("temp.txt", "criminals.txt");
+    }
+}
+
+Criminal Criminal::findCriminalByLastName(const std::string& lastName)
+{
+    std::ifstream inFile("criminals.txt");
+    std::string line;
+    Criminal foundCriminal;
+    while (std::getline(inFile, line)) {
+        std::istringstream iss(line);
+        std::string firstName, lastNameInFile, nickname, hairColor, eyeColor, specialFeatures, nationality, birthDate, birthPlace, lastResidence, lawKnowledge, criminalProfession, lastCrime;
+        int height;
+
+        std::getline(iss, firstName, ',');
+        std::getline(iss, lastNameInFile, ',');
+        std::getline(iss, nickname, ',');
+        iss >> height;
+        iss.ignore();
+        std::getline(iss, eyeColor, ',');
+        std::getline(iss, hairColor, ',');
+        std::getline(iss, specialFeatures, ',');
+        std::getline(iss, nationality, ',');
+        std::getline(iss, birthDate, ',');
+        std::getline(iss, birthPlace, ',');
+        std::getline(iss, lastResidence, ',');
+        std::getline(iss, lawKnowledge, ',');
+        std::getline(iss, criminalProfession, ',');
+        std::getline(iss, lastCrime, ',');
+
+        if (lastNameInFile == lastName) {
+            foundCriminal = Criminal(firstName, lastNameInFile, nickname, height, hairColor, eyeColor, specialFeatures, nationality, birthDate, birthPlace, lastResidence, lawKnowledge, criminalProfession, lastCrime);
+            break;
+        }
+    }
+    return foundCriminal;
 }
