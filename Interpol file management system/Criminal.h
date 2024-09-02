@@ -6,8 +6,9 @@
 #include <sstream>
 #include <stdexcept>
 #include "Person.h"
+#include "ISearchable.h"
 
-class Criminal : public Person
+class Criminal : public Person, public ISearchable
 {
 private:
     std::string lawKnowledge;
@@ -16,6 +17,8 @@ private:
     //CriminalOrganization* organization;
     bool isArchived;
     bool isDeceased;
+    static std::vector<Criminal> criminalDatabase;
+    static void loadCriminalsFromFile(); // Load criminals from file
 
 public:
     Criminal() {
@@ -50,5 +53,7 @@ public:
     void archiveCriminal(const Criminal& criminal);
     void removeFromActiveList(const std::string& lastName);
     Criminal findCriminalByLastName(const std::string& lastName);
+    void searchByCriteria() const override;
+    void displayResults() const override;
 };
 

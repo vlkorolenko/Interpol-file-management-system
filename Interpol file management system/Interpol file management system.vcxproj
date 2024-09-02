@@ -129,11 +129,13 @@
   <ItemGroup>
     <ClCompile Include="Criminal.cpp" />
     <ClCompile Include="Interpol file management system.cpp" />
+    <ClCompile Include="ISearchable.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Person.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Criminal.h" />
+    <ClInclude Include="ISearchable.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Person.h" />
   </ItemGroup>

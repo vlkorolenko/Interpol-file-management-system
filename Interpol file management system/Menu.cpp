@@ -81,7 +81,10 @@ int Menu::displayMenu()
                 break;
             case 6:
                 system("cls");
-                cout << "Soon\n";
+                {
+                    Criminal criminal;
+                    criminal.searchByCriteria();
+                }
                 break;
             case 7:
                 system("cls");

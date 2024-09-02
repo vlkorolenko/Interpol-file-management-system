@@ -1,5 +1,37 @@
 ﻿#include "Criminal.h"
 
+void Criminal::loadCriminalsFromFile()
+{
+    criminalDatabase.clear(); // Clear existing database
+    std::ifstream file("criminals.txt");
+    std::string line;
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+        std::string firstName, lastName, nickname, hairColor, eyeColor, specialFeatures, nationality, birthDate, birthPlace, lastResidence, lawKnowledge, criminalProfession, lastCrime;
+        int height;
+
+        std::getline(iss, firstName, ',');
+        std::getline(iss, lastName, ',');
+        std::getline(iss, nickname, ',');
+        iss >> height;
+        iss.ignore();
+        std::getline(iss, eyeColor, ',');
+        std::getline(iss, hairColor, ',');
+        std::getline(iss, specialFeatures, ',');
+        std::getline(iss, nationality, ',');
+        std::getline(iss, birthDate, ',');
+        std::getline(iss, birthPlace, ',');
+        std::getline(iss, lastResidence, ',');
+        std::getline(iss, lawKnowledge, ',');
+        std::getline(iss, criminalProfession, ',');
+        std::getline(iss, lastCrime, ',');
+
+        Criminal criminal(firstName, lastName, nickname, height, hairColor, eyeColor, specialFeatures, nationality, birthDate, birthPlace, lastResidence, lawKnowledge, criminalProfession, lastCrime);
+        criminalDatabase.push_back(criminal);
+    }
+    file.close();
+}
+
 void Criminal::inputInfo()
 {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -147,4 +179,79 @@ Criminal Criminal::findCriminalByLastName(const std::string& lastName)
         }
     }
     return foundCriminal;
+}
+
+std::vector<Criminal> Criminal::criminalDatabase;
+
+void Criminal::searchByCriteria() const
+{
+    std::cout << "Select search criterion:\n";
+    std::cout << "1. First Name\n";
+    std::cout << "2. Last Name\n";
+    std::cout << "3. Nickname\n";
+    std::cout << "Enter option (1-3): ";
+
+    int option;
+    std::cin >> option;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    std::string criteria;
+    switch (option) {
+    case 1:
+        std::cout << "Enter first name: ";
+        std::getline(std::cin, criteria);
+        break;
+    case 2:
+        std::cout << "Enter last name: ";
+        std::getline(std::cin, criteria);
+        break;
+    case 3:
+        std::cout << "Enter nickname: ";
+        std::getline(std::cin, criteria);
+        break;
+    default:
+        std::cout << "Invalid option selected.\n";
+        return;
+    }
+
+    loadCriminalsFromFile(); // Load criminals from file
+    std::vector<Criminal> results;
+
+    for (const auto& criminal : criminalDatabase) {
+        if ((option == 1 && criminal.firstName == criteria) ||
+            (option == 2 && criminal.lastName == criteria) ||
+            (option == 3 && criminal.nickname == criteria)) {
+            results.push_back(criminal);
+        }
+    }
+
+    if (results.empty()) {
+        std::cout << "No criminals found with the given criteria.\n";
+    }
+    else {
+        system("cls");
+        std::cout << "Found " << results.size() << " criminals.\n\n";
+        for (const auto& criminal : results) {
+            criminal.displayResults();
+        }
+    }
+}
+
+void Criminal::displayResults() const
+{
+    std::cout << "First name: " << firstName << std::endl;
+    std::cout << "Last name: " << lastName << std::endl;
+    std::cout << "Nickname: " << nickname << std::endl;
+    std::cout << "Height: " << height << std::endl;
+    std::cout << "Eye color: " << eyeColor << std::endl;
+    std::cout << "Hair color: " << hairColor << std::endl;
+    std::cout << "Special features: " << specialFeatures << std::endl;
+    std::cout << "Nationality: " << nationality << std::endl;
+    std::cout << "Birth date: " << birthDate << std::endl;
+    std::cout << "Birth place: " << birthPlace << std::endl;
+    std::cout << "Last residence: " << lastResidence << std::endl;
+    std::cout << "Knowledge of law: " << lawKnowledge << std::endl;
+    std::cout << "Criminal profession: " << criminalProfession << std::endl;
+    std::cout << "Last crime: " << lastCrime << std::endl;
+    std::cout << "-------------\n";
 }

@@ -1,0 +1,3 @@
+Vasa,f,f,23,f,f,f,f,f,f,f,f,f,f
+Vlad,Korolenko,y,6,j,j,j,j,j,j,j,j,j,j
+Vlad,Bbbaba,j,6,j,j,j,j,j,j,j,j,j,j
