@@ -22,7 +22,7 @@ int Menu::displayMenu()
             std::cout << "7. View Criminal Organizations List\n";
             std::cout << "8. Add New Organization\n";
             std::cout << "9. Update Organization Data\n";
-            std::cout << "10. View Case History\n";
+            std::cout << "10. Archive\n";
             std::cout << "11. [Exit]\n";
             std::cout << "Choose option: ";
 
@@ -100,7 +100,7 @@ int Menu::displayMenu()
                 break;
             case 10:
                 system("cls");
-                cout << "Soon\n";
+                displayArchive();
                 break;
             case 11:
                 cout << "Exiting...\n";
@@ -144,6 +144,70 @@ int Menu::displayMenu()
 void Menu::displayCriminals()
 {
     std::ifstream file("criminals.txt");
+    try
+    {
+        std::string line;
+        while (std::getline(file, line))
+        {
+            std::istringstream iss(line);
+            std::string firstName;
+            std::string lastName;
+            std::string nickname;
+            int height;
+            std::string hairColor;
+            std::string eyeColor;
+            std::string specialFeatures;
+            std::string nationality;
+            std::string birthPlace;
+            std::string birthDate;
+            std::string lastResidence;
+            std::string lawKnowledge;
+            std::string criminalProfession;
+            std::string lastCrime;
+
+            std::getline(iss, firstName, ',');
+            std::getline(iss, lastName, ',');
+            std::getline(iss, nickname, ',');
+            iss >> height;
+            iss.ignore();
+            std::getline(iss, eyeColor, ',');
+            std::getline(iss, hairColor, ',');
+            std::getline(iss, specialFeatures, ',');
+            std::getline(iss, nationality, ',');
+            std::getline(iss, birthDate, ',');
+            std::getline(iss, birthPlace, ',');
+            std::getline(iss, lastResidence, ',');
+            std::getline(iss, lawKnowledge, ',');
+            std::getline(iss, criminalProfession, ',');
+            std::getline(iss, lastCrime, ',');
+
+            std::cout << "First name: " << firstName << std::endl;
+            std::cout << "Last name: " << lastName << std::endl;
+            std::cout << "Nickname: " << nickname << std::endl;
+            std::cout << "Height: " << height << std::endl;
+            std::cout << "Eye color: " << eyeColor << std::endl;
+            std::cout << "Hair color: " << hairColor << std::endl;
+            std::cout << "Special features: " << specialFeatures << std::endl;
+            std::cout << "Nationality: " << nationality << std::endl;
+            std::cout << "Birth date: " << birthDate << std::endl;
+            std::cout << "Birth place: " << birthPlace << std::endl;
+            std::cout << "Last residence: " << lastResidence << std::endl;
+            std::cout << "Knowledge of law: " << lawKnowledge << std::endl;
+            std::cout << "Criminal profession: " << criminalProfession << std::endl;
+            std::cout << "Last crime: " << lastCrime << std::endl;
+            std::cout << "-------------\n";
+        }
+        file.close();
+    }
+    catch (const std::runtime_error& e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
+
+void Menu::displayArchive()
+{
+    std::ifstream file("archive.txt");
     try
     {
         std::string line;

@@ -12,5 +12,6 @@ class Menu
 public:
 	int displayMenu();
 	void displayCriminals();
+	void displayArchive();
 };
 

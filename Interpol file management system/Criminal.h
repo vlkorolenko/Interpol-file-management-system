@@ -55,5 +55,6 @@ public:
     Criminal findCriminalByLastName(const std::string& lastName);
     void searchByCriteria() const override;
     void displayResults() const override;
+    void displayArchive();
 };
 
