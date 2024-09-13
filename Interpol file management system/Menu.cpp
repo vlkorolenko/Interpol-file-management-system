@@ -56,11 +56,13 @@ int Menu::displayMenu()
             case 3:
                 system("cls");
                 {
-                    std::string lastName;
-                    std::cout << "Enter the last name of the criminal to archive: ";
+                    std::string firstName, lastName;
+                    std::cout << "Enter the FIRST name of the criminal to archive: ";
+                    std::cin >> firstName;
+                    std::cout << "Enter the LAST name of the criminal to archive: ";
                     std::cin >> lastName;
 
-                    Criminal criminal = criminal.findCriminalByLastName(lastName); // Find the criminal by last name
+                    Criminal criminal = criminal.findCriminalByName(firstName, lastName); // Find the criminal by last name
                     if (!criminal.getLastName().empty()) { // Check if the criminal was found
                         criminal.archiveCriminal(criminal); // Archive the criminal
                         criminal.removeFromActiveList(lastName); // Remove from active list

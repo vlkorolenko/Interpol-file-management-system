@@ -147,17 +147,17 @@ void Criminal::removeFromActiveList(const std::string& lastName)
     }
 }
 
-Criminal Criminal::findCriminalByLastName(const std::string& lastName)
+Criminal Criminal::findCriminalByName(const std::string& firstName, std::string& lastName)
 {
     std::ifstream inFile("criminals.txt");
     std::string line;
     Criminal foundCriminal;
     while (std::getline(inFile, line)) {
         std::istringstream iss(line);
-        std::string firstName, lastNameInFile, nickname, hairColor, eyeColor, specialFeatures, nationality, birthDate, birthPlace, lastResidence, lawKnowledge, criminalProfession, lastCrime;
+        std::string firstNameInFile, lastNameInFile, nickname, hairColor, eyeColor, specialFeatures, nationality, birthDate, birthPlace, lastResidence, lawKnowledge, criminalProfession, lastCrime;
         int height;
 
-        std::getline(iss, firstName, ',');
+        std::getline(iss, firstNameInFile, ',');
         std::getline(iss, lastNameInFile, ',');
         std::getline(iss, nickname, ',');
         iss >> height;
@@ -173,8 +173,8 @@ Criminal Criminal::findCriminalByLastName(const std::string& lastName)
         std::getline(iss, criminalProfession, ',');
         std::getline(iss, lastCrime, ',');
 
-        if (lastNameInFile == lastName) {
-            foundCriminal = Criminal(firstName, lastNameInFile, nickname, height, hairColor, eyeColor, specialFeatures, nationality, birthDate, birthPlace, lastResidence, lawKnowledge, criminalProfession, lastCrime);
+        if (lastNameInFile == lastName && firstNameInFile == firstName) {
+            foundCriminal = Criminal(firstNameInFile, lastNameInFile, nickname, height, hairColor, eyeColor, specialFeatures, nationality, birthDate, birthPlace, lastResidence, lawKnowledge, criminalProfession, lastCrime);
             break;
         }
     }

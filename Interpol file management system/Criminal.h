@@ -52,7 +52,7 @@ public:
     void saveToFile(const Criminal& criminal);
     void archiveCriminal(const Criminal& criminal);
     void removeFromActiveList(const std::string& lastName);
-    Criminal findCriminalByLastName(const std::string& lastName);
+    Criminal findCriminalByName(const std::string& firstName, std::string& lastName);
     void searchByCriteria() const override;
     void displayResults() const override;
     void displayArchive();
