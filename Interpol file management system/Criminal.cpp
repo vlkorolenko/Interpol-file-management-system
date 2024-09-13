@@ -189,13 +189,25 @@ void Criminal::searchByCriteria() const
     std::cout << "1. First Name\n";
     std::cout << "2. Last Name\n";
     std::cout << "3. Nickname\n";
-    std::cout << "Enter option (1-3): ";
+    std::cout << "4. Height\n";
+    std::cout << "5. Hair color\n";
+    std::cout << "6. Eye color\n";
+    std::cout << "7. Special features\n";
+    std::cout << "8. Nationality\n";
+    std::cout << "9. Birth date\n";
+    std::cout << "10. Birth place\n";
+    std::cout << "11. Last residence\n";
+    std::cout << "12. Knowledge of law\n";
+    std::cout << "13. Criminal profession\n";
+    std::cout << "14. Last crime\n";
+    std::cout << "Enter option (1-14): ";
 
     int option;
     std::cin >> option;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     std::string criteria;
+    int height = 0;
     switch (option) {
     case 1:
         std::cout << "Enter first name: ";
@@ -209,6 +221,61 @@ void Criminal::searchByCriteria() const
         std::cout << "Enter nickname: ";
         std::getline(std::cin, criteria);
         break;
+    case 4:
+        std::cout << "Enter height: ";
+        std::getline(std::cin, criteria);
+        try {
+            height = std::stoi(criteria); // Перетворюємо рядок у ціле число
+        }
+        catch (const std::invalid_argument& e) {
+            std::cout << "Invalid input. Please enter a valid number.\n";
+            return;
+        }
+        catch (const std::out_of_range& e) {
+            std::cout << "Number out of range. Please enter a valid number.\n";
+            return;
+        }
+        break;
+    case 5:
+        std::cout << "Enter hair color: ";
+        std::getline(std::cin, criteria);
+        break;
+    case 6:
+        std::cout << "Enter eye color: ";
+        std::getline(std::cin, criteria);
+        break;
+    case 7:
+        std::cout << "Enter special features: ";
+        std::getline(std::cin, criteria);
+        break;
+    case 8:
+        std::cout << "Enter nationality: ";
+        std::getline(std::cin, criteria);
+        break;
+    case 9:
+        std::cout << "Enter birth date: ";
+        std::getline(std::cin, criteria);
+        break;
+    case 10:
+        std::cout << "Enter birth place: ";
+        std::getline(std::cin, criteria);
+        break;
+    case 11:
+        std::cout << "Enter last residence: ";
+        std::getline(std::cin, criteria);
+        break;
+    case 12:
+        std::cout << "Enter knoledge of law: ";
+        std::getline(std::cin, criteria);
+        break;
+    case 13:
+        std::cout << "Enter criminal profession: ";
+        std::getline(std::cin, criteria);
+        break;
+    case 14:
+        std::cout << "Enter last crime: ";
+        std::getline(std::cin, criteria);
+        break;
     default:
         std::cout << "Invalid option selected.\n";
         return;
@@ -220,7 +287,18 @@ void Criminal::searchByCriteria() const
     for (const auto& criminal : criminalDatabase) {
         if ((option == 1 && criminal.firstName == criteria) ||
             (option == 2 && criminal.lastName == criteria) ||
-            (option == 3 && criminal.nickname == criteria)) {
+            (option == 3 && criminal.nickname == criteria) ||
+            (option == 4 && criminal.height == height) ||
+            (option == 5 && criminal.hairColor == criteria) ||
+            (option == 6 && criminal.eyeColor == criteria) ||
+            (option == 7 && criminal.specialFeatures == criteria) ||
+            (option == 8 && criminal.nationality == criteria) ||
+            (option == 9 && criminal.birthDate == criteria) ||
+            (option == 10 && criminal.birthPlace == criteria) ||
+            (option == 11 && criminal.lastResidence == criteria) ||
+            (option == 12 && criminal.lawKnowledge == criteria) ||
+            (option == 13 && criminal.criminalProfession == criteria) ||
+            (option == 14 && criminal.lastCrime == criteria)) {
             results.push_back(criminal);
         }
     }
