@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include "Person.h"
 #include "ISearchable.h"
+#include "CriminalGroup.h"
 
 class Criminal : public Person, public ISearchable
 {
@@ -15,15 +16,11 @@ private:
     std::string criminalProfession;
     std::string lastCrime;
     //CriminalOrganization* organization;
-    bool isArchived;
-    bool isDeceased;
     static std::vector<Criminal> criminalDatabase;
     static void loadCriminalsFromFile(); // Load criminals from file
 
 public:
-    Criminal() {
-        // Ініціалізація значень за замовчуванням
-    }
+    Criminal() {}
     Criminal(std::string firstName, std::string lastName, std::string nickname, int height,
         std::string hairColor, std::string eyeColor, std::string specialFeatures,
         std::string nationality, std::string birthDate, std::string birthPlace,
@@ -47,6 +44,9 @@ public:
     }
 
     std::string getLastName() const {return lastName;}
+    std::string getFirstName() const { return firstName; }
+    void setFirstName(const std::string& fn) { firstName = fn; }
+    void setLastName(const std::string& ln) { lastName = ln; }
 
     void inputInfo();
     void saveToFile(const Criminal& criminal);
@@ -55,6 +55,6 @@ public:
     Criminal findCriminalByName(const std::string& firstName, std::string& lastName);
     void searchByCriteria() const override;
     void displayResults() const override;
-    void displayArchive();
+    bool isCriminalInGroup(const CriminalGroup& group, const Criminal& criminal);
 };
 

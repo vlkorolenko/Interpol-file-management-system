@@ -4,6 +4,10 @@ void addCriminal(Criminal& criminal) {
     criminal.inputInfo();
 }
 
+void addCriminalGroup(CriminalGroup& criminalGroup) {
+    criminalGroup.inputInfo();
+}
+
 int Menu::displayMenu()
 {
     bool menuIsOpen = true;
@@ -13,15 +17,15 @@ int Menu::displayMenu()
         try
         {
             std::cout << "Menu:\n";
-            std::cout << "1. Add New Criminal\n";
+            std::cout << "1. Add new criminal\n";
             std::cout << "2. List of criminals\n";;
-            std::cout << "3. Archive Criminal\n";
-            std::cout << "4. Delete Criminal After Death\n";
-            std::cout << "5. View Criminal Information\n";
-            std::cout << "6. Search Criminals by Criteria\n";
-            std::cout << "7. View Criminal Organizations List\n";
-            std::cout << "8. Add New Organization\n";
-            std::cout << "9. Update Organization Data\n";
+            std::cout << "3. Archive criminal\n";
+            std::cout << "4. Delete criminal after death\n";
+            std::cout << "5. View criminal information\n";
+            std::cout << "6. Search criminals by criteria\n";
+            std::cout << "7. Add new organization\n";
+            std::cout << "8. View criminal organizations list\n";
+            std::cout << "9. Update organization data\n";
             std::cout << "10. Archive\n";
             std::cout << "11. [Exit]\n";
             std::cout << "Choose option: ";
@@ -90,15 +94,22 @@ int Menu::displayMenu()
                 break;
             case 7:
                 system("cls");
-                cout << "Soon\n";
+                {
+                    CriminalGroup criminalGroup;
+                    addCriminalGroup(criminalGroup);
+                }
                 break;
             case 8:
                 system("cls");
-                cout << "Soon\n";
+                //std::vector<CriminalGroup> groups = CriminalGroup
+                {
+                    CriminalGroup criminalGroup;
+                    criminalGroup.displayCriminalGroups();
+                }
                 break;
             case 9:
                 system("cls");
-                cout << "Soon\n";
+                displayCriminalGroups();
                 break;
             case 10:
                 system("cls");
@@ -110,8 +121,9 @@ int Menu::displayMenu()
 
             }
             int variant = 0;
-            do {
-                cout << "\n1. Back to menu";
+            while (variant != 1)
+            {
+                cout << "1. Back to menu";
                 cout << "\n2. [Exit]\n";
                 cout << "Choose option: ";
                 cin >> variant;
@@ -130,12 +142,11 @@ int Menu::displayMenu()
                     system("cls");
                     break;
                 }
-            } while (variant != 1);
+            }
         }
         catch (exception ex)
         {
             std::cout << "Error: " << ex.what() << std::endl;
-            std::cout << "Return to menu..." << std::endl;
             system("pause");
             system("cls");
         }
@@ -268,5 +279,134 @@ void Menu::displayArchive()
     catch (const std::runtime_error& e)
     {
         std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
+
+void Menu::displayCriminalGroups()
+{
+    std::vector<CriminalGroup> groups = CriminalGroup::loadFromFile();
+    if (groups.empty()) {
+        std::cout << "No groups found." << std::endl;
+        return;
+    }
+
+    // Display groups
+    std::cout << "Available Criminal Groups:" << std::endl;
+    for (size_t i = 0; i < groups.size(); ++i) {
+        std::cout << i + 1 << ". " << groups[i].getGroupName() << std::endl;
+    }
+
+    // User selects a group
+    std::cout << "Select a group by number: ";
+    int groupIndex;
+    std::cin >> groupIndex;
+
+    if (groupIndex < 1 || groupIndex > groups.size()) {
+        std::cout << "Invalid selection." << std::endl;
+        return;
+    }
+
+    CriminalGroup& selectedGroup = groups[groupIndex - 1];
+    //selectedGroup.displayCriminalGroups();
+    system("cls");
+    int choice;
+    do {
+        std::cout << "Group: " << selectedGroup.getGroupName() << "\n";
+        const std::vector<Criminal>& members = selectedGroup.getMembers(); // Отримати список членів
+        for (size_t i = 0; i < members.size(); ++i) {
+            std::cout << "  Member: " << members[i].getFirstName() << " " << members[i].getLastName() << std::endl;
+        }
+        std::cout << "\n-------------\n\n";
+        // Option to update the selected group
+        std::cout << "1. Add member" << std::endl;
+        std::cout << "2. Remove member" << std::endl;
+        std::cout << "3. Remove group" << std::endl;
+        std::cout << "4. [Back to menu]" << std::endl;
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+        if (choice > 4 || choice <= 0)
+        {
+            system("cls");
+            cout << "Invalid option. Try again.\n\n";
+        }
+    } while (choice > 4 || choice <= 0);
+    system("cls");
+
+    switch (choice) {
+    case 1: {
+        // Додавання учасника
+        bool criminalFound = false;
+        std::string firstName, lastName;
+        while (!criminalFound) {
+            std::cout << "Enter the FIRST name of the criminal: ";
+            std::cin >> firstName;
+            std::cout << "Enter the LAST name of the criminal: ";
+            std::cin >> lastName;
+
+            Criminal criminal = criminal.findCriminalByName(firstName, lastName); // Знайти злочинця
+
+            if (!criminal.getLastName().empty()) {
+                if (criminal.isCriminalInGroup(selectedGroup, criminal)) {
+                    system("cls");
+                    std::cout << criminal.getFirstName() + " " + criminal.getLastName() + " is already a member of the group.\n";
+                }
+                else
+                {
+                    selectedGroup.addMember(criminal); // Додати члена в групу
+                    selectedGroup.removeGroupFromFile(selectedGroup.getGroupName());
+                    selectedGroup.saveToFile(selectedGroup); // Зберегти зміни в файл
+                    system("cls");
+                    std::cout << "Criminal added successfully to the group. " << std::endl;
+                    criminalFound = true; // Вихід з циклу
+                }
+
+            }
+            else
+            {
+                system("cls");
+                std::cout << "Criminal not found. Try again.\n";
+            }
+        }
+        break;
+    }
+    case 2: {
+        if (selectedGroup.getMembers().empty())
+        {
+            std::cout << "No members in the group." << std::endl;
+            break;
+        }
+
+        std::cout << "Members of the group " << selectedGroup.getGroupName() << ":\n";
+        const std::vector<Criminal>& members = selectedGroup.getMembers(); // Отримати список членів
+        for (size_t i = 0; i < members.size(); ++i) {
+            std::cout << i + 1 << ". " << members[i].getFirstName() << " " << members[i].getLastName() << std::endl;
+        }
+
+        // Запитати користувача про видалення члена
+        int memberIndex;
+        std::cout << "Enter the number of the member to remove: ";
+        std::cin >> memberIndex;
+
+        if (memberIndex < 1 || memberIndex > members.size()) {
+            std::cout << "Invalid selection." << std::endl;
+            break;
+        }
+        const Criminal& memberToRemove = members[memberIndex - 1];
+        selectedGroup.removeMember(selectedGroup.getGroupName(), memberToRemove.getFirstName(), memberToRemove.getLastName());
+        break;
+    }
+    case 3: {
+        selectedGroup.removeGroupFromFile(selectedGroup.getGroupName());
+        system("cls");
+        std::cout << "Group removed successfully." << std::endl;
+        break;
+    }
+    case 4: {
+        break;
+    }
+    default:
+        system("cls");
+        std::cout << "Invalid option." << std::endl;
+        break;
     }
 }

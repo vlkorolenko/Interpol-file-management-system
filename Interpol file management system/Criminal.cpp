@@ -333,3 +333,14 @@ void Criminal::displayResults() const
     std::cout << "Last crime: " << lastCrime << std::endl;
     std::cout << "-------------\n";
 }
+
+bool Criminal::isCriminalInGroup(const CriminalGroup& group, const Criminal& criminal)
+{
+    for (const auto& member : group.getMembers()) {
+        if (member.getFirstName() == criminal.getFirstName() && member.getLastName() == criminal.getLastName()) {
+            return true; // Якщо знайдений злочинець у групі, повертаємо true
+        }
+    }
+    return false; // Злочинця немає в групі
+}
+
