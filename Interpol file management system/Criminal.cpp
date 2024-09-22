@@ -304,6 +304,7 @@ void Criminal::searchByCriteria() const
     }
 
     if (results.empty()) {
+        system("cls");
         std::cout << "No criminals found with the given criteria.\n";
     }
     else {

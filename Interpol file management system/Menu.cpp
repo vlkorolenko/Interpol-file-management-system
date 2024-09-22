@@ -369,30 +369,57 @@ void Menu::displayCriminalGroups()
         }
         break;
     }
-    case 2: {
-        if (selectedGroup.getMembers().empty())
-        {
+    case 2:
+    {
+        const std::vector<Criminal>& members = selectedGroup.getMembers(); // Отримати список членів групи
+
+        if (members.empty()) {
             std::cout << "No members in the group." << std::endl;
-            break;
         }
+        else {
+            int memberIndex = 0;
+            bool validInput = false;
 
-        std::cout << "Members of the group " << selectedGroup.getGroupName() << ":\n";
-        const std::vector<Criminal>& members = selectedGroup.getMembers(); // Отримати список членів
-        for (size_t i = 0; i < members.size(); ++i) {
-            std::cout << i + 1 << ". " << members[i].getFirstName() << " " << members[i].getLastName() << std::endl;
+            while (!validInput) {
+                // Виводимо список членів групи при кожній ітерації циклу
+                std::cout << "Group: " << selectedGroup.getGroupName() << "\n";
+                for (size_t i = 0; i < members.size(); ++i) {
+                    std::cout << "  " << i + 1 << ". " << members[i].getFirstName() << " " << members[i].getLastName() << std::endl;
+                }
+
+                std::cout << "\n-------------\n\n";
+
+                try {
+                    std::cout << "Enter the number of the member to remove: ";
+                    std::cin >> memberIndex;
+
+                    if (std::cin.fail()) {
+                        throw std::invalid_argument("Invalid input. Please enter a number.");
+                    }
+
+                    if (memberIndex < 1 || memberIndex > members.size()) {
+                        throw std::out_of_range("Invalid selection. Please choose a valid member number.");
+                    }
+
+                    // Якщо ввід коректний, встановлюємо прапорець validInput в true для виходу з циклу
+                    validInput = true;
+                }
+                catch (const std::invalid_argument& e) {
+                    std::cin.clear(); // Очищення помилки
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Пропуск некоректного вводу
+                    system("cls");
+                    std::cout << e.what() << std::endl << std::endl;
+                }
+                catch (const std::out_of_range& e) {
+                    system("cls");
+                    std::cout << e.what() << std::endl << std::endl;
+                }
+            }
+
+            // Після коректного вводу видаляємо члена
+            const Criminal& memberToRemove = members[memberIndex - 1];
+            selectedGroup.removeMember(selectedGroup.getGroupName(), memberToRemove.getFirstName(), memberToRemove.getLastName());
         }
-
-        // Запитати користувача про видалення члена
-        int memberIndex;
-        std::cout << "Enter the number of the member to remove: ";
-        std::cin >> memberIndex;
-
-        if (memberIndex < 1 || memberIndex > members.size()) {
-            std::cout << "Invalid selection." << std::endl;
-            break;
-        }
-        const Criminal& memberToRemove = members[memberIndex - 1];
-        selectedGroup.removeMember(selectedGroup.getGroupName(), memberToRemove.getFirstName(), memberToRemove.getLastName());
         break;
     }
     case 3: {
