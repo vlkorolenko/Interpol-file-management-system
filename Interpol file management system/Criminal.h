@@ -57,4 +57,3 @@ public:
     void displayResults() const override;
     bool isCriminalInGroup(const CriminalGroup& group, const Criminal& criminal);
 };
-

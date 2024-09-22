@@ -344,4 +344,3 @@ bool Criminal::isCriminalInGroup(const CriminalGroup& group, const Criminal& cri
     }
     return false; // Злочинця немає в групі
 }
-

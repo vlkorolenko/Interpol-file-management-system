@@ -1,10 +1,12 @@
 ﻿#include "Menu.h"
 
-void addCriminal(Criminal& criminal) {
+void addCriminal(Criminal& criminal)
+{
     criminal.inputInfo();
 }
 
-void addCriminalGroup(CriminalGroup& criminalGroup) {
+void addCriminalGroup(CriminalGroup& criminalGroup)
+{
     criminalGroup.inputInfo();
 }
 
@@ -34,7 +36,8 @@ int Menu::displayMenu()
             std::cin >> option;
 
             // Перевірка на коректність введення
-            if (std::cin.fail() || option > 11 || option <= 0) {
+            if (std::cin.fail() || option > 11 || option <= 0)
+            {
                 std::cin.clear(); // очищаємо прапор помилки
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // відкидаємо некоректний ввід
                 throw std::invalid_argument("Incorrect entry. Please try again.");
@@ -52,10 +55,6 @@ int Menu::displayMenu()
             case 2:
                 system("cls");
                 displayCriminals();
-                /*{
-                    Criminal criminal;
-                    criminal.displayInfo();
-                }*/
                 break;
             case 3:
                 system("cls");
@@ -72,7 +71,8 @@ int Menu::displayMenu()
                         criminal.removeFromActiveList(lastName); // Remove from active list
                         std::cout << "Criminal archived successfully.\n";
                     }
-                    else {
+                    else
+                    {
                         std::cout << "Criminal not found.\n";
                     }
                 }
@@ -101,7 +101,6 @@ int Menu::displayMenu()
                 break;
             case 8:
                 system("cls");
-                //std::vector<CriminalGroup> groups = CriminalGroup
                 {
                     CriminalGroup criminalGroup;
                     criminalGroup.displayCriminalGroups();
@@ -121,26 +120,52 @@ int Menu::displayMenu()
 
             }
             int variant = 0;
+
             while (variant != 1)
             {
-                cout << "1. Back to menu";
-                cout << "\n2. [Exit]\n";
-                cout << "Choose option: ";
-                cin >> variant;
-                while (variant < 1 || variant > 2)
+                try
                 {
-                    std::cout << "Incorrect option. \nTry again: ";
+                    std::cout << "1. Back to menu";
+                    std::cout << "\n2. [Exit]\n";
+                    std::cout << "Choose option: ";
                     std::cin >> variant;
+
+                    // Перевіряємо, чи ввів користувач рядок замість числа
+                    if (std::cin.fail())
+                    {
+                        throw std::invalid_argument("Input is not a number. Please enter a valid option.");
+                    }
+
+                    // Перевірка на діапазон варіантів
+                    if (variant < 1 || variant > 2)
+                    {
+                        throw std::out_of_range("Invalid option. Please enter 1 or 2.");
+                    }
+
+                    // Обробка вибору користувача
+                    if (variant == 2)
+                    {
+                        std::cout << "Exiting...\n";
+                        return 0;
+                    }
+                    else
+                    {
+                        system("cls");
+                        break;
+                    }
                 }
-                if (variant == 2)
+                catch (const std::invalid_argument& e)
                 {
-                    cout << "Exiting...\n";
-                    return 0;
+                    // Очищення вводу та виведення повідомлення про помилку
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    system("cls");
+                    std::cout << "Error: " << e.what() << std::endl << std::endl;
                 }
-                else
+                catch (const std::out_of_range& e)
                 {
                     system("cls");
-                    break;
+                    std::cout << "Error: " << e.what() << std::endl << std::endl;
                 }
             }
         }
@@ -285,14 +310,16 @@ void Menu::displayArchive()
 void Menu::displayCriminalGroups()
 {
     std::vector<CriminalGroup> groups = CriminalGroup::loadFromFile();
-    if (groups.empty()) {
+    if (groups.empty())
+    {
         std::cout << "No groups found." << std::endl;
         return;
     }
 
     // Display groups
     std::cout << "Available Criminal Groups:" << std::endl;
-    for (size_t i = 0; i < groups.size(); ++i) {
+    for (size_t i = 0; i < groups.size(); ++i)
+    {
         std::cout << i + 1 << ". " << groups[i].getGroupName() << std::endl;
     }
 
@@ -301,7 +328,8 @@ void Menu::displayCriminalGroups()
     int groupIndex;
     std::cin >> groupIndex;
 
-    if (groupIndex < 1 || groupIndex > groups.size()) {
+    if (groupIndex < 1 || groupIndex > groups.size())
+    {
         std::cout << "Invalid selection." << std::endl;
         return;
     }
@@ -310,10 +338,12 @@ void Menu::displayCriminalGroups()
     //selectedGroup.displayCriminalGroups();
     system("cls");
     int choice;
-    do {
+    do
+    {
         std::cout << "Group: " << selectedGroup.getGroupName() << "\n";
         const std::vector<Criminal>& members = selectedGroup.getMembers(); // Отримати список членів
-        for (size_t i = 0; i < members.size(); ++i) {
+        for (size_t i = 0; i < members.size(); ++i)
+        {
             std::cout << "  Member: " << members[i].getFirstName() << " " << members[i].getLastName() << std::endl;
         }
         std::cout << "\n-------------\n\n";
@@ -332,8 +362,10 @@ void Menu::displayCriminalGroups()
     } while (choice > 4 || choice <= 0);
     system("cls");
 
-    switch (choice) {
-    case 1: {
+    switch (choice)
+    {
+    case 1:
+    {
         // Додавання учасника
         bool criminalFound = false;
         std::string firstName, lastName;
@@ -345,8 +377,10 @@ void Menu::displayCriminalGroups()
 
             Criminal criminal = criminal.findCriminalByName(firstName, lastName); // Знайти злочинця
 
-            if (!criminal.getLastName().empty()) {
-                if (criminal.isCriminalInGroup(selectedGroup, criminal)) {
+            if (!criminal.getLastName().empty())
+            {
+                if (criminal.isCriminalInGroup(selectedGroup, criminal))
+                {
                     system("cls");
                     std::cout << criminal.getFirstName() + " " + criminal.getLastName() + " is already a member of the group.\n";
                 }
@@ -373,44 +407,53 @@ void Menu::displayCriminalGroups()
     {
         const std::vector<Criminal>& members = selectedGroup.getMembers(); // Отримати список членів групи
 
-        if (members.empty()) {
+        if (members.empty())
+        {
             std::cout << "No members in the group." << std::endl;
         }
-        else {
+        else
+        {
             int memberIndex = 0;
             bool validInput = false;
 
-            while (!validInput) {
+            while (!validInput)
+            {
                 // Виводимо список членів групи при кожній ітерації циклу
                 std::cout << "Group: " << selectedGroup.getGroupName() << "\n";
-                for (size_t i = 0; i < members.size(); ++i) {
+                for (size_t i = 0; i < members.size(); ++i)
+                {
                     std::cout << "  " << i + 1 << ". " << members[i].getFirstName() << " " << members[i].getLastName() << std::endl;
                 }
 
                 std::cout << "\n-------------\n\n";
 
-                try {
+                try
+                {
                     std::cout << "Enter the number of the member to remove: ";
                     std::cin >> memberIndex;
 
-                    if (std::cin.fail()) {
+                    if (std::cin.fail())
+                    {
                         throw std::invalid_argument("Invalid input. Please enter a number.");
                     }
 
-                    if (memberIndex < 1 || memberIndex > members.size()) {
+                    if (memberIndex < 1 || memberIndex > members.size())
+                    {
                         throw std::out_of_range("Invalid selection. Please choose a valid member number.");
                     }
 
                     // Якщо ввід коректний, встановлюємо прапорець validInput в true для виходу з циклу
                     validInput = true;
                 }
-                catch (const std::invalid_argument& e) {
+                catch (const std::invalid_argument& e)
+                {
                     std::cin.clear(); // Очищення помилки
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Пропуск некоректного вводу
                     system("cls");
                     std::cout << e.what() << std::endl << std::endl;
                 }
-                catch (const std::out_of_range& e) {
+                catch (const std::out_of_range& e)
+                {
                     system("cls");
                     std::cout << e.what() << std::endl << std::endl;
                 }
@@ -422,15 +465,13 @@ void Menu::displayCriminalGroups()
         }
         break;
     }
-    case 3: {
+    case 3:
         selectedGroup.removeGroupFromFile(selectedGroup.getGroupName());
         system("cls");
         std::cout << "Group removed successfully." << std::endl;
         break;
-    }
-    case 4: {
+    case 4:
         break;
-    }
     default:
         system("cls");
         std::cout << "Invalid option." << std::endl;

@@ -26,4 +26,3 @@ public:
 	void removeGroupFromFile(const std::string& groupName);
 	void removeMember(const std::string& groupName, const std::string& memberFirstName, const std::string& memberLastName);
 };
-
