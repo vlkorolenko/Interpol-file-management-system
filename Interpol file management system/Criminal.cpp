@@ -207,8 +207,8 @@ void Criminal::searchByCriteria() const
             std::cout << "14. Last crime\n";
             std::cout << "Enter option (1-14): ";
 
-            int option;
             std::cin >> option;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очищення буферу
             if (std::cin.fail())
             {
                 throw std::invalid_argument("Input is not a number. Please enter a valid option.");
