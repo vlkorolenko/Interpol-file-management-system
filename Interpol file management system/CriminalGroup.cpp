@@ -154,6 +154,7 @@ void CriminalGroup::removeGroupFromFile(const std::string& groupName)
     std::ofstream tempFile("temp.txt");
     std::string line;
     bool inGroup = false;
+    bool groupFound = false;
 
     if (!file.is_open() || !tempFile.is_open()) {
         std::cout << "Unable to open file." << std::endl;
@@ -164,19 +165,21 @@ void CriminalGroup::removeGroupFromFile(const std::string& groupName)
         // Якщо знаходимо назву групи, починаємо видаляти всі наступні рядки
         if (line == groupName) {
             inGroup = true;
+            groupFound = true;
             continue;  // Пропускаємо цей рядок (назва групи)
         }
 
-        // Якщо знайшли порожній рядок або кінець списку членів групи
-        if (inGroup && line.empty()) {
-            inGroup = false;
-            continue;  // Пропускаємо порожній рядок
+        // Якщо ми в середині групи, пропускаємо всі рядки до наступної порожньої строки
+        if (inGroup) {
+            if (line.empty() || line == "---") {
+                inGroup = false; // Завершили групу
+                continue; // Пропускаємо цей рядок
+            }
+            continue; // Пропускаємо рядки в середині групи
         }
 
         // Якщо не в середині видаляємої групи, записуємо рядки у тимчасовий файл
-        if (!inGroup) {
-            tempFile << line << std::endl;
-        }
+        tempFile << line << std::endl;
     }
 
     file.close();
@@ -185,6 +188,13 @@ void CriminalGroup::removeGroupFromFile(const std::string& groupName)
     // Видаляємо старий файл та перейменовуємо тимчасовий файл
     std::remove("groups.txt");
     std::rename("temp.txt", "groups.txt");
+
+    if (groupFound) {
+        std::cout << "Group '" << groupName << "' has been removed successfully." << std::endl;
+    }
+    else {
+        std::cout << "Group '" << groupName << "' not found." << std::endl;
+    }
 }
 
 void CriminalGroup::removeMember(const std::string& groupName, const std::string& memberFirstName, const std::string& memberLastName)
