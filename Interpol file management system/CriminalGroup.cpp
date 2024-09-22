@@ -25,9 +25,10 @@ void CriminalGroup::inputInfo()
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     CriminalGroup newCriminalGroup;
 
-    std::cout << "Enter criminal group name: " << std::endl;
+    std::cout << "Enter criminal group name: ";
     std::getline(std::cin, newCriminalGroup.name);
     bool active = true;
+    system("cls");
     do {
         std::cout << "Add member?\n";
         std::cout << "1. Yes\n";
@@ -39,21 +40,29 @@ void CriminalGroup::inputInfo()
         {
             system("cls");
             std::string firstName, lastName;
-            std::cout << "Enter the FIRST name of the criminal to archive: ";
+            
+            std::cout << "Enter the FIRST name of the criminal to add: ";
             std::cin >> firstName;
-            std::cout << "Enter the LAST name of the criminal to archive: ";
+            std::cout << "Enter the LAST name of the criminal to add: ";
             std::cin >> lastName;
 
             Criminal criminal = criminal.findCriminalByName(firstName, lastName); // Find the criminal by last name
             if (!criminal.getLastName().empty()) { // Check if the criminal was found
                 newCriminalGroup.addMember(criminal);
-                std::cout << "Criminal added successfully.\n";
+                system("cls");
+                std::cout << "Criminal added successfully.\n\n";
             }
-            else {
-                std::cout << "Criminal not found.\n";
+            else
+            {
+                system("cls");
+                std::cout << "Criminal not found.\n\n";
             }
         }
-        else { active = false; }
+        else
+        {
+            system("cls");
+            active = false;
+        }
     } while (active);
      saveToFile(newCriminalGroup);
 }
