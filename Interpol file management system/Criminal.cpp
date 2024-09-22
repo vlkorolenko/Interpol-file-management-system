@@ -185,30 +185,59 @@ std::vector<Criminal> Criminal::criminalDatabase;
 
 void Criminal::searchByCriteria() const
 {
-    std::cout << "Select search criterion:\n";
-    std::cout << "1. First Name\n";
-    std::cout << "2. Last Name\n";
-    std::cout << "3. Nickname\n";
-    std::cout << "4. Height\n";
-    std::cout << "5. Hair color\n";
-    std::cout << "6. Eye color\n";
-    std::cout << "7. Special features\n";
-    std::cout << "8. Nationality\n";
-    std::cout << "9. Birth date\n";
-    std::cout << "10. Birth place\n";
-    std::cout << "11. Last residence\n";
-    std::cout << "12. Knowledge of law\n";
-    std::cout << "13. Criminal profession\n";
-    std::cout << "14. Last crime\n";
-    std::cout << "Enter option (1-14): ";
+    int option = 0;
+    while (true)
+    {
+        try
+        {
+            std::cout << "Select search criterion:\n";
+            std::cout << "1. First Name\n";
+            std::cout << "2. Last Name\n";
+            std::cout << "3. Nickname\n";
+            std::cout << "4. Height\n";
+            std::cout << "5. Hair color\n";
+            std::cout << "6. Eye color\n";
+            std::cout << "7. Special features\n";
+            std::cout << "8. Nationality\n";
+            std::cout << "9. Birth date\n";
+            std::cout << "10. Birth place\n";
+            std::cout << "11. Last residence\n";
+            std::cout << "12. Knowledge of law\n";
+            std::cout << "13. Criminal profession\n";
+            std::cout << "14. Last crime\n";
+            std::cout << "Enter option (1-14): ";
 
-    int option;
-    std::cin >> option;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            int option;
+            std::cin >> option;
+            if (std::cin.fail())
+            {
+                throw std::invalid_argument("Input is not a number. Please enter a valid option.");
+            }
+            if (option < 1 || option > 14)
+            {
+                throw std::out_of_range("Invalid option selected.");
+            }
+            break; // Виходимо з циклу, якщо немає помилок
+        }
+        catch (const std::invalid_argument& e)
+        {
+            // Очищення вводу та виведення повідомлення про помилку
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            system("cls");
+            std::cout << "Error: " << e.what() << std::endl << std::endl;
+        }
+        catch (const std::out_of_range& e)
+        {
+            system("cls");
+            std::cout << "Option out of range. Please enter a valid option between 1 and 14.\n\n";
+        }
+    }
 
     std::string criteria;
     int height = 0;
-    switch (option) {
+    switch (option)
+    {
     case 1:
         std::cout << "Enter first name: ";
         std::getline(std::cin, criteria);
@@ -224,14 +253,17 @@ void Criminal::searchByCriteria() const
     case 4:
         std::cout << "Enter height: ";
         std::getline(std::cin, criteria);
-        try {
+        try
+        {
             height = std::stoi(criteria); // Перетворюємо рядок у ціле число
         }
-        catch (const std::invalid_argument& e) {
+        catch (const std::invalid_argument& e)
+        {
             std::cout << "Invalid input. Please enter a valid number.\n";
             return;
         }
-        catch (const std::out_of_range& e) {
+        catch (const std::out_of_range& e)
+        {
             std::cout << "Number out of range. Please enter a valid number.\n";
             return;
         }
@@ -265,7 +297,7 @@ void Criminal::searchByCriteria() const
         std::getline(std::cin, criteria);
         break;
     case 12:
-        std::cout << "Enter knoledge of law: ";
+        std::cout << "Enter knowledge of law: ";
         std::getline(std::cin, criteria);
         break;
     case 13:
@@ -281,10 +313,12 @@ void Criminal::searchByCriteria() const
         return;
     }
 
-    loadCriminalsFromFile(); // Load criminals from file
+    // Далі код для пошуку злочинців за критерієм
+    loadCriminalsFromFile(); // Завантажити злочинців із файлу
     std::vector<Criminal> results;
 
-    for (const auto& criminal : criminalDatabase) {
+    for (const auto& criminal : criminalDatabase)
+    {
         if ((option == 1 && criminal.firstName == criteria) ||
             (option == 2 && criminal.lastName == criteria) ||
             (option == 3 && criminal.nickname == criteria) ||
@@ -303,18 +337,22 @@ void Criminal::searchByCriteria() const
         }
     }
 
-    if (results.empty()) {
+    if (results.empty())
+    {
         system("cls");
         std::cout << "No criminals found with the given criteria.\n";
     }
-    else {
+    else
+    {
         system("cls");
         std::cout << "Found " << results.size() << " criminals.\n\n";
-        for (const auto& criminal : results) {
+        for (const auto& criminal : results)
+        {
             criminal.displayResults();
         }
     }
 }
+
 
 void Criminal::displayResults() const
 {
