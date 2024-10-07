@@ -43,6 +43,96 @@ public:
         this->lastCrime = lastCrime;
     }
 
+    Criminal(const Criminal& other)
+    {
+        firstName = other.firstName;
+        lastName = other.lastName;
+        nickname = other.nickname;
+        height = other.height;
+        hairColor = other.hairColor;
+        eyeColor = other.eyeColor;
+        specialFeatures = other.specialFeatures;
+        nationality = other.nationality;
+        birthDate = other.birthDate;
+        birthPlace = other.birthPlace;
+        lastResidence = other.lastResidence;
+        lawKnowledge = other.lawKnowledge;
+        criminalProfession = other.criminalProfession;
+        lastCrime = other.lastCrime;
+        std::cout << "Copy constructor called for criminal: " << firstName << " " << lastName << std::endl;
+    }
+
+    // Конструктор переміщення
+    Criminal(Criminal&& other) noexcept
+    {
+        firstName = std::move(other.firstName);
+        lastName = std::move(other.lastName);
+        nickname = std::move(other.nickname);
+        height = other.height;
+        hairColor = std::move(other.hairColor);
+        eyeColor = std::move(other.eyeColor);
+        specialFeatures = std::move(other.specialFeatures);
+        nationality = std::move(other.nationality);
+        birthDate = std::move(other.birthDate);
+        birthPlace = std::move(other.birthPlace);
+        lastResidence = std::move(other.lastResidence);
+        lawKnowledge = std::move(other.lawKnowledge);
+        criminalProfession = std::move(other.criminalProfession);
+        lastCrime = std::move(other.lastCrime);
+        std::cout << "Move constructor called for criminal: " << firstName << " " << lastName << std::endl;
+    }
+
+    // Оператор копіювання
+    Criminal& operator=(const Criminal& other)
+    {
+        if (this != &other) {
+            firstName = other.firstName;
+            lastName = other.lastName;
+            nickname = other.nickname;
+            height = other.height;
+            hairColor = other.hairColor;
+            eyeColor = other.eyeColor;
+            specialFeatures = other.specialFeatures;
+            nationality = other.nationality;
+            birthDate = other.birthDate;
+            birthPlace = other.birthPlace;
+            lastResidence = other.lastResidence;
+            lawKnowledge = other.lawKnowledge;
+            criminalProfession = other.criminalProfession;
+            lastCrime = other.lastCrime;
+            std::cout << "Copy assignment operator called for criminal: " << firstName << " " << lastName << std::endl;
+        }
+        return *this;
+    }
+
+    // Оператор переміщення
+    Criminal& operator=(Criminal&& other) noexcept
+    {
+        if (this != &other) {
+            firstName = std::move(other.firstName);
+            lastName = std::move(other.lastName);
+            nickname = std::move(other.nickname);
+            height = other.height;
+            hairColor = std::move(other.hairColor);
+            eyeColor = std::move(other.eyeColor);
+            specialFeatures = std::move(other.specialFeatures);
+            nationality = std::move(other.nationality);
+            birthDate = std::move(other.birthDate);
+            birthPlace = std::move(other.birthPlace);
+            lastResidence = std::move(other.lastResidence);
+            lawKnowledge = std::move(other.lawKnowledge);
+            criminalProfession = std::move(other.criminalProfession);
+            lastCrime = std::move(other.lastCrime);
+            std::cout << "Move assignment operator called for criminal: " << firstName << " " << lastName << std::endl;
+        }
+        return *this;
+    }
+
+    // Деструктор
+    ~Criminal() {
+        std::cout << "Criminal " << firstName << " " << lastName << " is being destroyed." << std::endl;
+    }
+
     std::string getLastName() const {return lastName;}
     std::string getFirstName() const { return firstName; }
     void setFirstName(const std::string& fn) { firstName = fn; }
@@ -56,4 +146,6 @@ public:
     void searchByCriteria() const override;
     void displayResults() const override;
     bool isCriminalInGroup(const CriminalGroup& group, const Criminal& criminal);
+    void removeFromArchive(const std::string& lastName);
+    Criminal findCriminalByNameInArchive(const std::string& firstName, std::string& lastName);
 };

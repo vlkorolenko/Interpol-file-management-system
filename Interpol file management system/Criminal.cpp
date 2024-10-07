@@ -382,3 +382,81 @@ bool Criminal::isCriminalInGroup(const CriminalGroup& group, const Criminal& cri
     }
     return false; // Злочинця немає в групі
 }
+
+void Criminal::removeFromArchive(const std::string& lastName)
+{
+    std::ifstream archiveFile("archive.txt");
+    std::ofstream tempFile("temp.txt");
+    std::string line;
+    bool criminalFound = false;
+
+    if (!archiveFile.is_open() || !tempFile.is_open()) {
+        std::cout << "Unable to open file." << std::endl;
+        return;
+    }
+
+    // Проходимо через всі рядки файлу архіву
+    while (std::getline(archiveFile, line)) {
+        // Перевіряємо, чи збігається прізвище
+        if (line.find(lastName) != std::string::npos) {
+            criminalFound = true;
+            // Пропускаємо всі рядки, що стосуються цього злочинця
+            while (std::getline(archiveFile, line) && !line.empty()) {
+                // Пропускаємо всі дані злочинця
+            }
+            continue; // Пропускаємо порожній рядок, що відокремлює злочинців
+        }
+
+        // Якщо злочинець не знайшовся або це інші записи, записуємо їх у тимчасовий файл
+        tempFile << line << std::endl;
+    }
+
+    archiveFile.close();
+    tempFile.close();
+
+    // Якщо злочинець був знайдений, оновлюємо архів
+    if (criminalFound) {
+        std::remove("archive.txt");
+        std::rename("temp.txt", "archive.txt");
+        system("cls");
+        std::cout << "Criminal successfully removed from the archive." << std::endl;
+    }
+    else {
+        std::remove("temp.txt"); // Видаляємо тимчасовий файл, якщо не знайшли злочинця
+        std::cout << "Criminal not found in the archive." << std::endl;
+    }
+}
+
+Criminal Criminal::findCriminalByNameInArchive(const std::string& firstName, std::string& lastName)
+{
+    std::ifstream inFile("archive.txt");
+    std::string line;
+    Criminal foundCriminal;
+    while (std::getline(inFile, line)) {
+        std::istringstream iss(line);
+        std::string firstNameInFile, lastNameInFile, nickname, hairColor, eyeColor, specialFeatures, nationality, birthDate, birthPlace, lastResidence, lawKnowledge, criminalProfession, lastCrime;
+        int height;
+
+        std::getline(iss, firstNameInFile, ',');
+        std::getline(iss, lastNameInFile, ',');
+        std::getline(iss, nickname, ',');
+        iss >> height;
+        iss.ignore();
+        std::getline(iss, eyeColor, ',');
+        std::getline(iss, hairColor, ',');
+        std::getline(iss, specialFeatures, ',');
+        std::getline(iss, nationality, ',');
+        std::getline(iss, birthDate, ',');
+        std::getline(iss, birthPlace, ',');
+        std::getline(iss, lastResidence, ',');
+        std::getline(iss, lawKnowledge, ',');
+        std::getline(iss, criminalProfession, ',');
+        std::getline(iss, lastCrime, ',');
+
+        if (lastNameInFile == lastName && firstNameInFile == firstName) {
+            foundCriminal = Criminal(firstNameInFile, lastNameInFile, nickname, height, hairColor, eyeColor, specialFeatures, nationality, birthDate, birthPlace, lastResidence, lawKnowledge, criminalProfession, lastCrime);
+            break;
+        }
+    }
+    return foundCriminal;
+}

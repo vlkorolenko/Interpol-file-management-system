@@ -79,7 +79,23 @@ int Menu::displayMenu()
                 break;
             case 4:
                 system("cls");
-                cout << "Soon\n";
+                {
+                    std::string firstName, lastName;
+                    std::cout << "Enter the FIRST name of the criminal to archive: ";
+                    std::cin >> firstName;
+                    std::cout << "Enter the LAST name of the criminal to archive: ";
+                    std::cin >> lastName;
+
+                    Criminal criminal = criminal.findCriminalByNameInArchive(firstName, lastName); // Find the criminal by last name
+                    if (!criminal.getLastName().empty()) { // Check if the criminal was found
+                        criminal.removeFromArchive(lastName); // Archive the criminal
+                    }
+                    else
+                    {
+                        system("cls");
+                        std::cout << "Criminal not found.\n";
+                    }
+                }
                 break;
             case 5:
                 system("cls");

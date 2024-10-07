@@ -1,6 +1,3 @@
-Aztec
-Vlad,Korolenko
----
 Groove
 Vlad,Korolenko
 ---

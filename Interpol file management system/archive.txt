@@ -1,7 +1,1 @@
 
-Vlad,Korolekno,vlko,5,5,5,5,5,t,t,t,t,t,t
-Vasa,f,f,23,f,f,f,f,f,f,f,f,f,f
-Vlad,Korolenko,y,6,j,j,j,j,j,j,j,j,j,j
-Liza,a,a,444,f,f,f,f,f,f,f,f,f,f
-
-Vlad,Korolenko,vlkorol,175,Green,Brown,None,Ukrainian,01/11/2005,Kamianets-Podilskiy,Chernivtsy,Good,Lawyer,idk

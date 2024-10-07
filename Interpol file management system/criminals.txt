@@ -1,3 +1,1 @@
-Vlad,Korolenko,ff,122,r,r,r,r,r,r,r,r,r,r
 Dasha,Borovska,f,5,f,f,f,f,f,f,f,f,f,f
-Vasya,Litvinyuk,aef,456,dfg,df,gdf,gdf,gd,fg,dfg,dfg,dfg,dfg
