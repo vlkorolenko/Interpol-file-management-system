@@ -12,15 +12,17 @@
 class Criminal : public Person, public ISearchable
 {
 private:
+
     std::string lawKnowledge;
     std::string criminalProfession;
     std::string lastCrime;
-    //CriminalOrganization* organization;
     static std::vector<Criminal> criminalDatabase;
-    static void loadCriminalsFromFile(); // Load criminals from file
+    static void loadCriminalsFromFile();
 
 public:
+
     Criminal() {}
+
     Criminal(std::string firstName, std::string lastName, std::string nickname, int height,
         std::string hairColor, std::string eyeColor, std::string specialFeatures,
         std::string nationality, std::string birthDate, std::string birthPlace,
@@ -59,7 +61,6 @@ public:
         lawKnowledge = other.lawKnowledge;
         criminalProfession = other.criminalProfession;
         lastCrime = other.lastCrime;
-        std::cout << "Copy constructor called for criminal: " << firstName << " " << lastName << std::endl;
     }
 
     // Конструктор переміщення
@@ -79,7 +80,6 @@ public:
         lawKnowledge = std::move(other.lawKnowledge);
         criminalProfession = std::move(other.criminalProfession);
         lastCrime = std::move(other.lastCrime);
-        std::cout << "Move constructor called for criminal: " << firstName << " " << lastName << std::endl;
     }
 
     // Оператор копіювання
@@ -100,7 +100,6 @@ public:
             lawKnowledge = other.lawKnowledge;
             criminalProfession = other.criminalProfession;
             lastCrime = other.lastCrime;
-            std::cout << "Copy assignment operator called for criminal: " << firstName << " " << lastName << std::endl;
         }
         return *this;
     }
@@ -123,15 +122,12 @@ public:
             lawKnowledge = std::move(other.lawKnowledge);
             criminalProfession = std::move(other.criminalProfession);
             lastCrime = std::move(other.lastCrime);
-            std::cout << "Move assignment operator called for criminal: " << firstName << " " << lastName << std::endl;
         }
         return *this;
     }
 
     // Деструктор
-    ~Criminal() {
-        std::cout << "Criminal " << firstName << " " << lastName << " is being destroyed." << std::endl;
-    }
+    ~Criminal() {}
 
     std::string getLastName() const {return lastName;}
     std::string getFirstName() const { return firstName; }

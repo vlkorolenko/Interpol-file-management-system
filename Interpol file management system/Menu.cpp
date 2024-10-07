@@ -1,24 +1,27 @@
 ﻿#include "Menu.h"
 
-void addCriminal(Criminal& criminal)
+// Метод для додання нового злочинця у базу
+void addCriminal(Criminal* criminal)
 {
-    criminal.inputInfo();
+    criminal->inputInfo();  // Викликаємо метод для введення інформації про нового злочинця
 }
 
+// Метод для додання нової злочинної організації
 void addCriminalGroup(CriminalGroup& criminalGroup)
 {
-    criminalGroup.inputInfo();
+    criminalGroup.inputInfo();  // Викликаємо метод для введення інформації про нову злочинну групу
 }
 
+// Виведення меню у консоль
 int Menu::displayMenu()
 {
-    bool menuIsOpen = true;
+    bool menuIsOpen = true;  // Змінна для збереження стану відкритого меню
 
-    while (menuIsOpen)
+    while (menuIsOpen)  // Цикл для відображення меню поки воно відкрите
     {
         try
         {
-            std::cout << "Menu:\n";
+            std::cout << "Menu:\n";  // Виведення опцій меню
             std::cout << "1. Add new criminal\n";
             std::cout << "2. List of criminals\n";;
             std::cout << "3. Archive criminal\n";
@@ -33,47 +36,51 @@ int Menu::displayMenu()
             std::cout << "Choose option: ";
 
             int option;
-            std::cin >> option;
+            std::cin >> option;  // Введення вибору користувача
 
             // Перевірка на коректність введення
             if (std::cin.fail() || option > 11 || option <= 0)
             {
-                std::cin.clear(); // очищаємо прапор помилки
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // відкидаємо некоректний ввід
-                throw std::invalid_argument("Incorrect entry. Please try again.");
+                std::cin.clear();  // Очищуємо прапорець помилки вводу
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Пропускаємо некоректні символи
+                throw std::invalid_argument("Incorrect entry. Please try again.");  // Генеруємо виняток при некоректному введенні
             }
 
-            switch (option)
+            switch (option)  // Обробка введеного користувачем варіанту
             {
             case 1:
-                system("cls");
+                system("cls");  // Очищуємо екран
                 {
-                    Criminal criminal; // Create a local object
-                    addCriminal(criminal); // Call the function to handle input
+                    Criminal* newCriminal = new Criminal();  // Створюємо новий об'єкт злочинця
+                    addCriminal(newCriminal);  // Викликаємо функцію для введення інформації про злочинця
+                    delete newCriminal;  // Очищаємо пам'ять після використання об'єкта
                 }
                 break;
             case 2:
-                system("cls");
-                displayCriminals();
+                system("cls");  // Очищуємо екран
+                displayCriminals();  // Викликаємо функцію для відображення списку злочинців
                 break;
             case 3:
-                system("cls");
+                system("cls");  // Очищуємо екран
                 {
                     std::string firstName, lastName;
-                    std::cout << "Enter the FIRST name of the criminal to archive: ";
+                    std::cout << "Enter the FIRST name of the criminal to archive: ";  // Запитуємо ім'я
                     std::cin >> firstName;
-                    std::cout << "Enter the LAST name of the criminal to archive: ";
+                    std::cout << "Enter the LAST name of the criminal to archive: ";  // Запитуємо прізвище
                     std::cin >> lastName;
 
-                    Criminal criminal = criminal.findCriminalByName(firstName, lastName); // Find the criminal by last name
-                    if (!criminal.getLastName().empty()) { // Check if the criminal was found
-                        criminal.archiveCriminal(criminal); // Archive the criminal
-                        criminal.removeFromActiveList(lastName); // Remove from active list
-                        std::cout << "Criminal archived successfully.\n";
+                    Criminal criminal = criminal.findCriminalByName(firstName, lastName);  // Пошук злочинця за ім'ям
+                    if (!criminal.getLastName().empty())  // Якщо злочинець знайдений
+                    {
+                        system("cls");
+                        criminal.archiveCriminal(criminal);  // Архівуємо злочинця
+                        criminal.removeFromActiveList(lastName);  // Видаляємо з активного списку
+                        std::cout << "Criminal archived successfully.\n";  // Виводимо повідомлення про успіх
                     }
                     else
                     {
-                        std::cout << "Criminal not found.\n";
+                        system("cls");
+                        std::cout << "Criminal not found.\n";  // Повідомлення, якщо злочинця не знайдено
                     }
                 }
                 break;
@@ -81,92 +88,94 @@ int Menu::displayMenu()
                 system("cls");
                 {
                     std::string firstName, lastName;
-                    std::cout << "Enter the FIRST name of the criminal to archive: ";
+                    std::cout << "Enter the FIRST name of the criminal to archive: ";  // Запитуємо ім'я
                     std::cin >> firstName;
-                    std::cout << "Enter the LAST name of the criminal to archive: ";
+                    std::cout << "Enter the LAST name of the criminal to archive: ";  // Запитуємо прізвище
                     std::cin >> lastName;
 
-                    Criminal criminal = criminal.findCriminalByNameInArchive(firstName, lastName); // Find the criminal by last name
-                    if (!criminal.getLastName().empty()) { // Check if the criminal was found
-                        criminal.removeFromArchive(lastName); // Archive the criminal
+                    Criminal criminal = criminal.findCriminalByNameInArchive(firstName, lastName);  // Пошук злочинця в архіві
+                    if (!criminal.getLastName().empty())  // Якщо знайдено
+                    {
+                        system("cls");
+                        criminal.removeFromArchive(lastName);  // Видаляємо з архіву
                     }
                     else
                     {
                         system("cls");
-                        std::cout << "Criminal not found.\n";
+                        std::cout << "Criminal not found.\n";  // Повідомлення, якщо не знайдено
                     }
                 }
                 break;
             case 5:
-                system("cls");
-                cout << "Soon\n";
+                system("cls");  // Очищуємо екран
+                cout << "Soon\n";  // Повідомлення, що функція ще не реалізована
                 break;
             case 6:
-                system("cls");
+                system("cls");  // Очищуємо екран
                 {
                     Criminal criminal;
-                    criminal.searchByCriteria();
+                    criminal.searchByCriteria();  // Викликаємо пошук за критеріями
                 }
                 break;
             case 7:
-                system("cls");
+                system("cls");  // Очищуємо екран
                 {
                     CriminalGroup criminalGroup;
-                    addCriminalGroup(criminalGroup);
+                    addCriminalGroup(criminalGroup);  // Викликаємо функцію для додавання нової організації
                 }
                 break;
             case 8:
-                system("cls");
+                system("cls");  // Очищуємо екран
                 {
                     CriminalGroup criminalGroup;
-                    criminalGroup.displayCriminalGroups();
+                    criminalGroup.displayCriminalGroups();  // Виведення списку організацій
                 }
                 break;
             case 9:
-                system("cls");
-                displayCriminalGroups();
+                system("cls");  // Очищуємо екран
+                displayCriminalGroups();  // Відображення даних про організації
                 break;
             case 10:
-                system("cls");
-                displayArchive();
+                system("cls");  // Очищуємо екран
+                displayArchive();  // Відображення архіву
                 break;
             case 11:
-                cout << "Exiting...\n";
-                return 0;
-
+                cout << "Exiting...\n";  // Повідомлення про вихід
+                return 0;  // Завершення програми
             }
-            int variant = 0;
+
+            int variant = 0;  // Змінна для вибору повернення до меню чи виходу
 
             while (variant != 1)
             {
                 try
                 {
-                    std::cout << "1. Back to menu";
+                    std::cout << "1. Back to menu";  // Виводимо опції повернення до меню
                     std::cout << "\n2. [Exit]\n";
                     std::cout << "Choose option: ";
-                    std::cin >> variant;
+                    std::cin >> variant;  // Введення вибору
 
                     // Перевіряємо, чи ввів користувач рядок замість числа
                     if (std::cin.fail())
                     {
-                        throw std::invalid_argument("Input is not a number. Please enter a valid option.");
+                        throw std::invalid_argument("Input is not a number. Please enter a valid option.");  // Виняток при некоректному введенні
                     }
 
                     // Перевірка на діапазон варіантів
                     if (variant < 1 || variant > 2)
                     {
-                        throw std::out_of_range("Invalid option. Please enter 1 or 2.");
+                        throw std::out_of_range("Invalid option. Please enter 1 or 2.");  // Виняток при некоректному варіанті
                     }
 
                     // Обробка вибору користувача
                     if (variant == 2)
                     {
-                        std::cout << "Exiting...\n";
-                        return 0;
+                        std::cout << "Exiting...\n";  // Повідомлення про вихід
+                        return 0;  // Завершення програми
                     }
                     else
                     {
-                        system("cls");
+                        system("cls");  // Очищення екрану для повернення до меню
                         break;
                     }
                 }
@@ -176,34 +185,36 @@ int Menu::displayMenu()
                     std::cin.clear();
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     system("cls");
-                    std::cout << "Error: " << e.what() << std::endl << std::endl;
+                    std::cout << "Error: " << e.what() << std::endl << std::endl;  // Виведення помилки
                 }
                 catch (const std::out_of_range& e)
                 {
                     system("cls");
-                    std::cout << "Error: " << e.what() << std::endl << std::endl;
+                    std::cout << "Error: " << e.what() << std::endl << std::endl;  // Виведення помилки
                 }
             }
         }
-        catch (exception ex)
+        catch (exception ex)  // Перехоплення загальних винятків
         {
-            std::cout << "Error: " << ex.what() << std::endl;
-            system("pause");
-            system("cls");
+            std::cout << "Error: " << ex.what() << std::endl;  // Виведення помилки
+            system("pause");  // Пауза перед очищенням екрану
+            system("cls");  // Очищення екрану після помилки
         }
 
     }
 }
 
+// Метод для відображення інформації про злочинців із файлу "criminals.txt"
 void Menu::displayCriminals()
 {
-    std::ifstream file("criminals.txt");
+    std::ifstream file("criminals.txt"); // Відкриття файлу "criminals.txt" для читання
     try
     {
         std::string line;
+        // Читання кожного рядка файлу, поки є рядки для обробки
         while (std::getline(file, line))
         {
-            std::istringstream iss(line);
+            std::istringstream iss(line); // Створення потоку для парсингу рядка
             std::string firstName;
             std::string lastName;
             std::string nickname;
@@ -219,11 +230,12 @@ void Menu::displayCriminals()
             std::string criminalProfession;
             std::string lastCrime;
 
+            // Розбір полів з рядка CSV (розділеного комами)
             std::getline(iss, firstName, ',');
             std::getline(iss, lastName, ',');
             std::getline(iss, nickname, ',');
             iss >> height;
-            iss.ignore();
+            iss.ignore(); // Пропуск символу після числового значення
             std::getline(iss, eyeColor, ',');
             std::getline(iss, hairColor, ',');
             std::getline(iss, specialFeatures, ',');
@@ -235,6 +247,7 @@ void Menu::displayCriminals()
             std::getline(iss, criminalProfession, ',');
             std::getline(iss, lastCrime, ',');
 
+            // Виведення даних про злочинця
             std::cout << "First name: " << firstName << std::endl;
             std::cout << "Last name: " << lastName << std::endl;
             std::cout << "Nickname: " << nickname << std::endl;
@@ -251,14 +264,16 @@ void Menu::displayCriminals()
             std::cout << "Last crime: " << lastCrime << std::endl;
             std::cout << "-------------\n";
         }
-        file.close();
+        file.close(); // Закриття файлу після обробки
     }
     catch (const std::runtime_error& e)
     {
-        std::cerr << "Error: " << e.what() << std::endl;
+        // Обробка можливих помилок під час читання файлу
+        std::cerr << "Помилка: " << e.what() << std::endl;
     }
 }
 
+// Метод для відображення архівованих злочинців із файлу "archive.txt"
 void Menu::displayArchive()
 {
     std::ifstream file("archive.txt");
@@ -283,6 +298,7 @@ void Menu::displayArchive()
             std::string criminalProfession;
             std::string lastCrime;
 
+            // Парсинг рядка CSV (розділеного комами)
             std::getline(iss, firstName, ',');
             std::getline(iss, lastName, ',');
             std::getline(iss, nickname, ',');
@@ -323,39 +339,45 @@ void Menu::displayArchive()
     }
 }
 
+// Виведення меню зі злочинними організаціями
 void Menu::displayCriminalGroups()
 {
+    // Завантаження груп злочинців із файлу
     std::vector<CriminalGroup> groups = CriminalGroup::loadFromFile();
     if (groups.empty())
     {
+        // Якщо груп немає, повідомляємо користувача
         std::cout << "No groups found." << std::endl;
         return;
     }
 
-    // Display groups
+    // Виведення списку груп
     std::cout << "Available Criminal Groups:" << std::endl;
     for (size_t i = 0; i < groups.size(); ++i)
     {
+        // Виводимо кожну групу по порядковому номеру
         std::cout << i + 1 << ". " << groups[i].getGroupName() << std::endl;
     }
 
-    // User selects a group
+    // Користувач обирає групу
     std::cout << "Select a group by number: ";
     int groupIndex;
     std::cin >> groupIndex;
 
+    // Перевірка на правильність вибору
     if (groupIndex < 1 || groupIndex > groups.size())
     {
         std::cout << "Invalid selection." << std::endl;
         return;
     }
 
+    // Отримуємо вибрану групу
     CriminalGroup& selectedGroup = groups[groupIndex - 1];
-    //selectedGroup.displayCriminalGroups();
     system("cls");
     int choice;
     do
     {
+        // Виведення інформації про вибрану групу та її членів
         std::cout << "Group: " << selectedGroup.getGroupName() << "\n";
         const std::vector<Criminal>& members = selectedGroup.getMembers(); // Отримати список членів
         for (size_t i = 0; i < members.size(); ++i)
@@ -363,17 +385,20 @@ void Menu::displayCriminalGroups()
             std::cout << "  Member: " << members[i].getFirstName() << " " << members[i].getLastName() << std::endl;
         }
         std::cout << "\n-------------\n\n";
-        // Option to update the selected group
+
+        // Опції для користувача
         std::cout << "1. Add member" << std::endl;
         std::cout << "2. Remove member" << std::endl;
         std::cout << "3. Remove group" << std::endl;
         std::cout << "4. [Back to menu]" << std::endl;
         std::cout << "Enter your choice: ";
         std::cin >> choice;
+
+        // Перевірка на правильність введення
         if (choice > 4 || choice <= 0)
         {
             system("cls");
-            cout << "Invalid option. Try again.\n\n";
+            std::cout << "Invalid option. Try again.\n\n";
         }
     } while (choice > 4 || choice <= 0);
     system("cls");
@@ -385,16 +410,19 @@ void Menu::displayCriminalGroups()
         // Додавання учасника
         bool criminalFound = false;
         std::string firstName, lastName;
-        while (!criminalFound) {
+        while (!criminalFound)
+        {
             std::cout << "Enter the FIRST name of the criminal: ";
             std::cin >> firstName;
             std::cout << "Enter the LAST name of the criminal: ";
             std::cin >> lastName;
 
-            Criminal criminal = criminal.findCriminalByName(firstName, lastName); // Знайти злочинця
+            // Пошук злочинця
+            Criminal criminal = criminal.findCriminalByName(firstName, lastName);
 
             if (!criminal.getLastName().empty())
             {
+                // Перевіряємо, чи не є злочинець вже членом групи
                 if (criminal.isCriminalInGroup(selectedGroup, criminal))
                 {
                     system("cls");
@@ -402,14 +430,14 @@ void Menu::displayCriminalGroups()
                 }
                 else
                 {
-                    selectedGroup.addMember(criminal); // Додати члена в групу
+                    // Додавання злочинця до групи
+                    selectedGroup.addMember(criminal);
                     selectedGroup.removeGroupFromFile(selectedGroup.getGroupName());
-                    selectedGroup.saveToFile(selectedGroup); // Зберегти зміни в файл
+                    selectedGroup.saveToFile(selectedGroup); // Збереження змін у файл
                     system("cls");
-                    std::cout << "Criminal added successfully to the group. " << std::endl;
+                    std::cout << "Criminal added successfully to the group." << std::endl;
                     criminalFound = true; // Вихід з циклу
                 }
-
             }
             else
             {
@@ -421,6 +449,7 @@ void Menu::displayCriminalGroups()
     }
     case 2:
     {
+        // Видалення члена групи
         const std::vector<Criminal>& members = selectedGroup.getMembers(); // Отримати список членів групи
 
         if (members.empty())
@@ -434,7 +463,7 @@ void Menu::displayCriminalGroups()
 
             while (!validInput)
             {
-                // Виводимо список членів групи при кожній ітерації циклу
+                // Виводимо список членів групи
                 std::cout << "Group: " << selectedGroup.getGroupName() << "\n";
                 for (size_t i = 0; i < members.size(); ++i)
                 {
@@ -445,9 +474,11 @@ void Menu::displayCriminalGroups()
 
                 try
                 {
+                    // Вибір члена для видалення
                     std::cout << "Enter the number of the member to remove: ";
                     std::cin >> memberIndex;
 
+                    // Перевірка на коректність вводу
                     if (std::cin.fail())
                     {
                         throw std::invalid_argument("Invalid input. Please enter a number.");
@@ -458,8 +489,7 @@ void Menu::displayCriminalGroups()
                         throw std::out_of_range("Invalid selection. Please choose a valid member number.");
                     }
 
-                    // Якщо ввід коректний, встановлюємо прапорець validInput в true для виходу з циклу
-                    validInput = true;
+                    validInput = true; // Вихід з циклу після коректного вводу
                 }
                 catch (const std::invalid_argument& e)
                 {
@@ -475,18 +505,20 @@ void Menu::displayCriminalGroups()
                 }
             }
 
-            // Після коректного вводу видаляємо члена
+            // Видалення вибраного члена
             const Criminal& memberToRemove = members[memberIndex - 1];
             selectedGroup.removeMember(selectedGroup.getGroupName(), memberToRemove.getFirstName(), memberToRemove.getLastName());
         }
         break;
     }
     case 3:
+        // Видалення групи
         selectedGroup.removeGroupFromFile(selectedGroup.getGroupName());
         system("cls");
         std::cout << "Group removed successfully." << std::endl;
         break;
     case 4:
+        // Повернення до меню
         break;
     default:
         system("cls");
