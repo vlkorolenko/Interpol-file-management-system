@@ -54,15 +54,12 @@ void CriminalGroup::inputInfo()
         {
             // якщо обрано додаванн€, запитуЇмо ≥м'€ та пр≥звище
             system("cls");
-            std::string firstName, lastName;
-
-            std::cout << "¬вед≥ть ≥м'€ злочинц€: ";
-            std::cin >> firstName;
-            std::cout << "¬вед≥ть пр≥звище злочинц€: ";
-            std::cin >> lastName;
+            int id;
+            std::cout << "¬вед≥ть ID злочинц€: ";
+            std::cin >> id;
 
             // ЎукаЇмо злочинц€ за ≥м'€м ≥ пр≥звищем
-            Criminal criminal = criminal.findCriminalByName(firstName, lastName);
+            Criminal criminal = criminal.findCriminalById(id);
             if (!criminal.getLastName().empty())
             {
                 // якщо знайдено, додаЇмо його до групи

@@ -13,35 +13,6 @@ void addCriminalGroup(CriminalGroup& criminalGroup)
     criminalGroup.inputInfo();  // Викликаємо метод для введення інформації про нову злочинну групу
 }
 
-int calculateAge(const std::string& birthDate)
-{
-    std::tm birthTime = {};
-    std::istringstream ss(birthDate);
-
-    // Парсинг дати народження з формату YYYY-MM-DD
-    ss >> std::get_time(&birthTime, "%Y-%m-%d");
-
-    if (ss.fail())
-    {
-        std::cerr << "Error parsing date!" << std::endl;
-        return -1; // Якщо дата не може бути оброблена
-    }
-
-    std::time_t now = std::time(nullptr);
-    std::tm* nowTime = std::localtime(&now);
-
-    int age = nowTime->tm_year + 1900 - birthTime.tm_year;
-
-    // Якщо поточний день і місяць менші, ніж у дати народження, то ще не виповнився повний рік
-    if (nowTime->tm_mon < birthTime.tm_mon ||
-        (nowTime->tm_mon == birthTime.tm_mon && nowTime->tm_mday < birthTime.tm_mday))
-    {
-        age--;
-    }
-
-    return age;
-}
-
 // Виведення меню у консоль
 int Menu::displayMenu()
 {
@@ -54,7 +25,7 @@ int Menu::displayMenu()
             std::cout << "Меню:\n";  // Виведення опцій меню
             std::cout << "1. Додати злочинця\n";
             std::cout << "2. Список злочинців\n";;
-            std::cout << "3. Архівувати злочинцяl\n";
+            std::cout << "3. Архівувати злочинця\n";
             std::cout << "4. Видалити злочинця після смерті\n";
             std::cout << "5. Пошук злочинця за критерією\n";
             std::cout << "6. Додати нову організацію\n";
@@ -93,18 +64,16 @@ int Menu::displayMenu()
             case 3:
                 system("cls");  // Очищуємо екран
                 {
-                    std::string firstName, lastName;
-                    std::cout << "Введіть ім'я злочинця: ";  // Запитуємо ім'я
-                    std::cin >> firstName;
-                    std::cout << "Введіть прізвище злочинця: ";  // Запитуємо прізвище
-                    std::cin >> lastName;
+                    int id;
+                    std::cout << "Введіть ID злочинця: ";  // Запитуємо прізвище
+                    std::cin >> id;
 
-                    Criminal criminal = criminal.findCriminalByName(firstName, lastName);  // Пошук злочинця за ім'ям
+                    Criminal criminal = criminal.findCriminalById(id);  // Пошук злочинця за ім'ям
                     if (!criminal.getLastName().empty())  // Якщо злочинець знайдений
                     {
                         system("cls");
                         criminal.archiveCriminal(criminal);  // Архівуємо злочинця
-                        criminal.removeFromActiveList(lastName);  // Видаляємо з активного списку
+                        criminal.removeFromActiveList(id);  // Видаляємо з активного списку
                         std::cout << "Злочинець успішно заархівований.\n";  // Виводимо повідомлення про успіх
                     }
                     else
@@ -117,17 +86,15 @@ int Menu::displayMenu()
             case 4:
                 system("cls");
                 {
-                    std::string firstName, lastName;
-                    std::cout << "Введіть ім'я злочинця: ";  // Запитуємо ім'я
-                    std::cin >> firstName;
-                    std::cout << "Введіть прізвище злочинця: ";  // Запитуємо прізвище
-                    std::cin >> lastName;
+                    int id;
+                    std::cout << "Введіть ID злочинця: ";  // Запитуємо прізвище
+                    std::cin >> id;
 
-                    Criminal criminal = criminal.findCriminalByNameInArchive(firstName, lastName);  // Пошук злочинця в архіві
+                    Criminal criminal = criminal.findCriminalByIdInArchive(id);  // Пошук злочинця в архіві
                     if (!criminal.getLastName().empty())  // Якщо знайдено
                     {
                         system("cls");
-                        criminal.removeFromArchive(lastName);  // Видаляємо з архіву
+                        criminal.removeFromArchive(id);  // Видаляємо з архіву
                     }
                     else
                     {
@@ -246,6 +213,7 @@ void Menu::displayCriminals()
         while (std::getline(file, line))
         {
             std::istringstream iss(line); // Створення потоку для парсингу рядка
+            int id;
             std::string firstName;
             std::string lastName;
             std::string nickname;
@@ -262,6 +230,8 @@ void Menu::displayCriminals()
             std::string lastCrime;
 
             // Розбір полів з рядка CSV (розділеного комами)
+            iss >> id;
+            iss.ignore(); // Пропуск символу після числового значення
             std::getline(iss, firstName, ',');
             std::getline(iss, lastName, ',');
             std::getline(iss, nickname, ',');
@@ -278,9 +248,8 @@ void Menu::displayCriminals()
             std::getline(iss, criminalProfession, ',');
             std::getline(iss, lastCrime, ',');
 
-            int age = calculateAge(birthDate);
-
             // Виведення даних про злочинця
+            std::cout << "ID: " << id << std::endl;
             std::cout << "Ім'я: " << firstName << std::endl;
             std::cout << "Прізвище: " << lastName << std::endl;
             std::cout << "Кличка: " << nickname << std::endl;
@@ -316,6 +285,7 @@ void Menu::displayArchive()
         while (std::getline(file, line))
         {
             std::istringstream iss(line);
+            int id;
             std::string firstName;
             std::string lastName;
             std::string nickname;
@@ -332,6 +302,8 @@ void Menu::displayArchive()
             std::string lastCrime;
 
             // Парсинг рядка CSV (розділеного комами)
+            iss >> id;
+            iss.ignore();
             std::getline(iss, firstName, ',');
             std::getline(iss, lastName, ',');
             std::getline(iss, nickname, ',');
@@ -348,6 +320,7 @@ void Menu::displayArchive()
             std::getline(iss, criminalProfession, ',');
             std::getline(iss, lastCrime, ',');
 
+            std::cout << "ID: " << id << std::endl;
             std::cout << "Ім'я: " << firstName << std::endl;
             std::cout << "Прізвище: " << lastName << std::endl;
             std::cout << "Кличка: " << nickname << std::endl;

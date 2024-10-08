@@ -12,7 +12,7 @@
 class Criminal : public Person, public ISearchable
 {
 private:
-
+    int id;
     std::string lawKnowledge;
     std::string criminalProfession;
     std::string lastCrime;
@@ -23,12 +23,13 @@ public:
 
     Criminal() {}
 
-    Criminal(std::string firstName, std::string lastName, std::string nickname, int height,
+    Criminal(int id, std::string firstName, std::string lastName, std::string nickname, int height,
         std::string hairColor, std::string eyeColor, std::string specialFeatures,
         std::string nationality, std::string birthDate, std::string birthPlace,
         std::string lastResidence, std::string lawKnowledge,
         std::string criminalProfession, std::string lastCrime)
     {
+        this->id = id;
         this->firstName = firstName;
         this->lastName = lastName;
         this->nickname = nickname;
@@ -47,6 +48,7 @@ public:
 
     Criminal(const Criminal& other)
     {
+        id = other.id;
         firstName = other.firstName;
         lastName = other.lastName;
         nickname = other.nickname;
@@ -66,6 +68,7 @@ public:
     // Конструктор переміщення
     Criminal(Criminal&& other) noexcept
     {
+        id = std::move(other.id);
         firstName = std::move(other.firstName);
         lastName = std::move(other.lastName);
         nickname = std::move(other.nickname);
@@ -86,6 +89,7 @@ public:
     Criminal& operator=(const Criminal& other)
     {
         if (this != &other) {
+            id = other.id;
             firstName = other.firstName;
             lastName = other.lastName;
             nickname = other.nickname;
@@ -108,6 +112,7 @@ public:
     Criminal& operator=(Criminal&& other) noexcept
     {
         if (this != &other) {
+            id = std::move(other.id);
             firstName = std::move(other.firstName);
             lastName = std::move(other.lastName);
             nickname = std::move(other.nickname);
@@ -129,6 +134,7 @@ public:
     // Деструктор
     ~Criminal() {}
 
+    int getId() const { return id; }
     std::string getLastName() const {return lastName;}
     std::string getFirstName() const { return firstName; }
     void setFirstName(const std::string& fn) { firstName = fn; }
@@ -137,11 +143,13 @@ public:
     void inputInfo();
     void saveToFile(const Criminal& criminal);
     void archiveCriminal(const Criminal& criminal);
-    void removeFromActiveList(const std::string& lastName);
+    void removeFromActiveList(const int& id);
     Criminal findCriminalByName(const std::string& firstName, std::string& lastName);
     void searchByCriteria() const override;
     void displayResults() const override;
     bool isCriminalInGroup(const CriminalGroup& group, const Criminal& criminal);
-    void removeFromArchive(const std::string& lastName);
-    Criminal findCriminalByNameInArchive(const std::string& firstName, std::string& lastName);
+    void removeFromArchive(const int& id);
+    Criminal findCriminalByIdInArchive(const int& id);
+    int findMaxIdInFile();
+    Criminal findCriminalById(const int& id);
 };
