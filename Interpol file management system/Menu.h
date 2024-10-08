@@ -4,6 +4,9 @@
 #include <stdexcept>
 #include <sstream>
 #include <vector>
+#include <cstdlib>
+#include <iomanip>
+#include <ctime>
 #include "Person.h"
 #include "Criminal.h"
 #include "CriminalGroup.h"
@@ -18,4 +21,6 @@ public:
 	void displayCriminals();
 	void displayArchive();
 	void displayCriminalGroups();
+	void displayUserGuide();
+	void displayInstructions(int choice);
 };

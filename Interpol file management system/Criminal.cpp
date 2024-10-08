@@ -44,57 +44,57 @@ void Criminal::inputInfo()
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очищаємо буфер
     Criminal newCriminal; // Створюємо новий об'єкт злочинця
 
-    std::cout << "Enter criminal details:" << std::endl;
+    std::cout << "Введіть інформацію про злочинця:" << std::endl;
 
     // Отримуємо інформацію про злочинця від користувача
-    std::cout << "First name: ";
+    std::cout << "Ім'я: ";
     std::getline(std::cin, newCriminal.firstName);
 
-    std::cout << "Last name: ";
+    std::cout << "Прізвище: ";
     std::getline(std::cin, newCriminal.lastName);
 
-    std::cout << "Nickname: ";
+    std::cout << "Кличка: ";
     std::getline(std::cin, newCriminal.nickname);
 
-    std::cout << "Height: ";
+    std::cout << "Зріст: ";
     // Перевіряємо правильність введення height
     while (!(std::cin >> newCriminal.height))
     {
         std::cin.clear();  // Очищаємо стан помилки
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Видаляємо залишки введення
-        std::cout << "Invalid input. Please enter a number: ";
+        std::cout << "Неправильне введення. Будь ласка, введіть число: ";
     }
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очищаємо буфер після числового вводу
 
     // Далі зчитуємо інші атрибути злочинця
-    std::cout << "Eye color: ";
+    std::cout << "Колір очей: ";
     std::getline(std::cin, newCriminal.eyeColor);
 
-    std::cout << "Hair color: ";
+    std::cout << "Колір волосся: ";
     std::getline(std::cin, newCriminal.hairColor);
 
-    std::cout << "Special features: ";
+    std::cout << "Особливі прикмети: ";
     std::getline(std::cin, newCriminal.specialFeatures);
 
-    std::cout << "Nationality: ";
+    std::cout << "Національність: ";
     std::getline(std::cin, newCriminal.nationality);
 
-    std::cout << "Birth date (DD/MM/YYYY): ";
+    std::cout << "Дата народження (DD/MM/YYYY): ";
     std::getline(std::cin, newCriminal.birthDate);
 
-    std::cout << "Birth place: ";
+    std::cout << "Місце народження: ";
     std::getline(std::cin, newCriminal.birthPlace);
 
-    std::cout << "Last residence: ";
+    std::cout << "Останнє місце перебування: ";
     std::getline(std::cin, newCriminal.lastResidence);
 
-    std::cout << "Knowledge of law: ";
+    std::cout << "Знання законів: ";
     std::getline(std::cin, newCriminal.lawKnowledge);
 
-    std::cout << "Criminal profession: ";
+    std::cout << "Кримінальна професія: ";
     std::getline(std::cin, newCriminal.criminalProfession);
 
-    std::cout << "Last crime: ";
+    std::cout << "Останній злочин: ";
     std::getline(std::cin, newCriminal.lastCrime);
 
     saveToFile(newCriminal); // Зберігаємо нового злочинця у файл
@@ -114,12 +114,12 @@ void Criminal::saveToFile(const Criminal& criminal)
             criminal.lastCrime << std::endl;
         file.close(); // Закриваємо файл
         system("cls"); // Очищаємо екран
-        std::cout << "\nNew criminal added successfully." << std::endl;
+        std::cout << "\nЗлочинця успішно додано." << std::endl;
     }
     else
     {
         system("cls");
-        std::cout << "\nUnable to open file." << std::endl; // Якщо файл не вдалося відкрити
+        std::cout << "\nНе вдалося відкрити файл." << std::endl; // Якщо файл не вдалося відкрити
     }
 }
 
@@ -139,7 +139,7 @@ void Criminal::archiveCriminal(const Criminal& criminal)
     }
     else
     {
-        std::cerr << "Unable to open archive file." << std::endl; // Якщо файл не вдалося відкрити
+        std::cerr << "Не вдалося відкрити файл." << std::endl; // Якщо файл не вдалося відкрити
     }
 }
 
@@ -219,32 +219,32 @@ void Criminal::searchByCriteria() const
         try
         {
             // Виведення меню для вибору критерію пошуку
-            std::cout << "Select search criterion:\n";
-            std::cout << "1. First Name\n";
-            std::cout << "2. Last Name\n";
-            std::cout << "3. Nickname\n";
-            std::cout << "4. Height\n";
-            std::cout << "5. Hair color\n";
-            std::cout << "6. Eye color\n";
-            std::cout << "7. Special features\n";
-            std::cout << "8. Nationality\n";
-            std::cout << "9. Birth date\n";
-            std::cout << "10. Birth place\n";
-            std::cout << "11. Last residence\n";
-            std::cout << "12. Knowledge of law\n";
-            std::cout << "13. Criminal profession\n";
-            std::cout << "14. Last crime\n";
-            std::cout << "Enter option (1-14): ";
+            std::cout << "Виберіть критерій для пошуку:\n";
+            std::cout << "1. Ім'я\n";
+            std::cout << "2. Прізвище\n";
+            std::cout << "3. Кличка\n";
+            std::cout << "4. Зріст\n";
+            std::cout << "5. Колір волосся\n";
+            std::cout << "6. Колір очей\n";
+            std::cout << "7. Особливі прикмети\n";
+            std::cout << "8. Національність\n";
+            std::cout << "9. Дата народження\n";
+            std::cout << "10. Місце народження\n";
+            std::cout << "11. Останнє місце перебування\n";
+            std::cout << "12. Знання законів\n";
+            std::cout << "13. Кримінальна професія\n";
+            std::cout << "14. Останній злочин\n";
+            std::cout << "Оберіть опцію (1-14): ";
 
             std::cin >> option;
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очищення буферу після введення
             if (std::cin.fail()) // Перевірка, чи було введено число
             {
-                throw std::invalid_argument("Input is not a number. Please enter a valid option."); // Кидання винятку у випадку нечислового вводу
+                throw std::invalid_argument("Введене значення не є числом. Будь ласка, введіть дійсну опцію."); // Кидання винятку у випадку нечислового вводу
             }
             if (option < 1 || option > 14) // Перевірка діапазону введеного значення
             {
-                throw std::out_of_range("Invalid option selected."); // Кидання винятку, якщо вибір поза межами
+                throw std::out_of_range("Недійсний вибір."); // Кидання винятку, якщо вибір поза межами
             }
             break; // Вихід з циклу у випадку коректного вводу
         }
@@ -254,12 +254,12 @@ void Criminal::searchByCriteria() const
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             system("cls"); // Очищення екрану
-            std::cout << "Error: " << e.what() << std::endl << std::endl; // Виведення помилки
+            std::cout << "Помилка: " << e.what() << std::endl << std::endl; // Виведення помилки
         }
         catch (const std::out_of_range& e)
         {
             system("cls"); // Очищення екрану
-            std::cout << "Option out of range. Please enter a valid option between 1 and 14.\n\n"; // Повідомлення про неправильний вибір
+            std::cout << "Варіант поза межами. Будь ласка, введіть дійсний варіант від 1 до 14.\n\n"; // Повідомлення про неправильний вибір
         }
     }
 
@@ -269,22 +269,22 @@ void Criminal::searchByCriteria() const
     {
     case 1:
         system("cls"); // Очищення екрану
-        std::cout << "Enter first name: ";
+        std::cout << "Введіть ім'я: ";
         std::getline(std::cin, criteria); // Введення імені
         break;
     case 2:
         system("cls");
-        std::cout << "Enter last name: ";
+        std::cout << "Введіть прізвище: ";
         std::getline(std::cin, criteria); // Введення прізвища
         break;
     case 3:
         system("cls");
-        std::cout << "Enter nickname: ";
+        std::cout << "Введіть кличку: ";
         std::getline(std::cin, criteria); // Введення псевдоніма
         break;
     case 4:
         system("cls");
-        std::cout << "Enter height: ";
+        std::cout << "Введіть зріст: ";
         std::getline(std::cin, criteria); // Введення висоти
         try
         {
@@ -292,68 +292,68 @@ void Criminal::searchByCriteria() const
         }
         catch (const std::invalid_argument& e) // Ловлення винятку, якщо введення не є числом
         {
-            std::cout << "Invalid input. Please enter a valid number.\n"; // Повідомлення про помилку
+            std::cout << "Неправильний вибір. Введіть правильне значення.\n"; // Повідомлення про помилку
             return;
         }
         catch (const std::out_of_range& e) // Ловлення винятку, якщо число занадто велике або мале
         {
-            std::cout << "Number out of range. Please enter a valid number.\n"; // Повідомлення про помилку
+            std::cout << "Введене число знаходиться поза межами припустимих. Спробуйте ще раз.\n"; // Повідомлення про помилку
             return;
         }
         break;
     case 5:
         system("cls");
-        std::cout << "Enter hair color: ";
+        std::cout << "Введіть колір волосся: ";
         std::getline(std::cin, criteria); // Введення кольору волосся
         break;
     case 6:
         system("cls");
-        std::cout << "Enter eye color: ";
+        std::cout << "Введіть колір очей: ";
         std::getline(std::cin, criteria); // Введення кольору очей
         break;
     case 7:
         system("cls");
-        std::cout << "Enter special features: ";
+        std::cout << "Введіть особливі прикмети: ";
         std::getline(std::cin, criteria); // Введення особливих прикмет
         break;
     case 8:
         system("cls");
-        std::cout << "Enter nationality: ";
+        std::cout << "Введіть національність: ";
         std::getline(std::cin, criteria); // Введення національності
         break;
     case 9:
         system("cls");
-        std::cout << "Enter birth date: ";
+        std::cout << "Введіть дату народження: ";
         std::getline(std::cin, criteria); // Введення дати народження
         break;
     case 10:
         system("cls");
-        std::cout << "Enter birth place: ";
+        std::cout << "Введіть місце народження: ";
         std::getline(std::cin, criteria); // Введення місця народження
         break;
     case 11:
         system("cls");
-        std::cout << "Enter last residence: ";
+        std::cout << "Введіть останнє місце перебування: ";
         std::getline(std::cin, criteria); // Введення останнього місця проживання
         break;
     case 12:
         system("cls");
-        std::cout << "Enter knowledge of law: ";
+        std::cout << "Введіть знання законів: ";
         std::getline(std::cin, criteria); // Введення знань у галузі права
         break;
     case 13:
         system("cls");
-        std::cout << "Enter criminal profession: ";
+        std::cout << "Введіть кримінальну професію: ";
         std::getline(std::cin, criteria); // Введення кримінальної професії
         break;
     case 14:
         system("cls");
-        std::cout << "Enter last crime: ";
+        std::cout << "Введіть останній злочин: ";
         std::getline(std::cin, criteria); // Введення останнього злочину
         break;
     default:
         system("cls"); // Очищення екрану у випадку некоректного вибору
-        std::cout << "Invalid option selected.\n"; // Виведення повідомлення про помилку
+        std::cout << "Вибрана недійсна опція.\n"; // Виведення повідомлення про помилку
         return;
     }
 
@@ -385,12 +385,12 @@ void Criminal::searchByCriteria() const
     if (results.empty()) // Якщо результатів немає
     {
         system("cls"); // Очищення екрану
-        std::cout << "No criminals found with the given criteria.\n"; // Повідомлення, що злочинців не знайдено
+        std::cout << "Жодного злочинця не знайдено по заданим критеріям.\n"; // Повідомлення, що злочинців не знайдено
     }
     else
     {
         system("cls"); // Очищення екрану
-        std::cout << "Found " << results.size() << " criminals.\n\n"; // Виведення кількості знайдених злочинців
+        std::cout << "Знайдено " << results.size() << " злочинця.\n\n"; // Виведення кількості знайдених злочинців
         for (const auto& criminal : results)
         {
             criminal.displayResults(); // Виведення результатів кожного знайденого злочинця
@@ -401,24 +401,25 @@ void Criminal::searchByCriteria() const
 // Відображення результатів пошуку злочинця
 void Criminal::displayResults() const
 {
-    std::cout << "First name: " << firstName << std::endl;
-    std::cout << "Last name: " << lastName << std::endl;
-    std::cout << "Nickname: " << nickname << std::endl;
-    std::cout << "Height: " << height << std::endl;
-    std::cout << "Eye color: " << eyeColor << std::endl;
-    std::cout << "Hair color: " << hairColor << std::endl;
-    std::cout << "Special features: " << specialFeatures << std::endl;
-    std::cout << "Nationality: " << nationality << std::endl;
-    std::cout << "Birth date: " << birthDate << std::endl;
-    std::cout << "Birth place: " << birthPlace << std::endl;
-    std::cout << "Last residence: " << lastResidence << std::endl;
-    std::cout << "Knowledge of law: " << lawKnowledge << std::endl;
-    std::cout << "Criminal profession: " << criminalProfession << std::endl;
-    std::cout << "Last crime: " << lastCrime << std::endl;
+    std::cout << "Ім'я: " << firstName << std::endl;
+    std::cout << "Прізвище: " << lastName << std::endl;
+    std::cout << "Кличка: " << nickname << std::endl;
+    std::cout << "Зріст: " << height << std::endl;
+    std::cout << "Колір очей: " << eyeColor << std::endl;
+    std::cout << "Колір волосся: " << hairColor << std::endl;
+    std::cout << "Особливі прикмети: " << specialFeatures << std::endl;
+    std::cout << "Націоналість: " << nationality << std::endl;
+    std::cout << "Дата народження: " << birthDate << std::endl;
+    std::cout << "Місце народження: " << birthPlace << std::endl;
+    std::cout << "Останнє місце перебування: " << lastResidence << std::endl;
+    std::cout << "Знання законів: " << lawKnowledge << std::endl;
+    std::cout << "Кримінальна професія: " << criminalProfession << std::endl;
+    std::cout << "Останній злочин: " << lastCrime << std::endl;
     std::cout << "-------------\n";
 }
 
 // Перевіряє, чи злочинець є у вказаній групі
+
 bool Criminal::isCriminalInGroup(const CriminalGroup& group, const Criminal& criminal)
 {
     // Проходимо по всіх учасниках групи
@@ -444,7 +445,7 @@ void Criminal::removeFromArchive(const std::string& lastName)
     // Перевіряємо, чи вдалося відкрити файли
     if (!archiveFile.is_open() || !tempFile.is_open())
     {
-        std::cout << "Unable to open file." << std::endl;
+        std::cout << "Не вдалось знайти файл." << std::endl;
         return; // Виходимо, якщо не вдалося відкрити файли
     }
 
@@ -476,12 +477,12 @@ void Criminal::removeFromArchive(const std::string& lastName)
         std::remove("archive.txt");        // Видаляємо старий файл архіву
         std::rename("temp.txt", "archive.txt"); // Перейменовуємо тимчасовий файл на архівний
         system("cls"); // Очищаємо екран (залежить від ОС, на Windows працюватиме, на Mac/Linux потрібно використовувати "clear")
-        std::cout << "Criminal successfully removed from the archive." << std::endl;
+        std::cout << "Злочинець успішно видалений з архіву." << std::endl;
     }
     else
     {
         std::remove("temp.txt"); // Видаляємо тимчасовий файл, якщо злочинця не знайшли
-        std::cout << "Criminal not found in the archive." << std::endl;
+        std::cout << "Злочинця не знайдено у архіві." << std::endl;
     }
 }
 

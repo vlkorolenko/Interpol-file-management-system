@@ -18,9 +18,7 @@ protected:
     std::string birthPlace;
     std::string birthDate;
     std::string lastResidence;
-
 public:
-
     Person() = default;
 
     // Конструктор із параметрами

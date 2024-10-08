@@ -24,7 +24,7 @@ void CriminalGroup::saveToFile(const CriminalGroup& criminalgroup)
     else
     {
         // якщо файл не вдалос€ в≥дкрити, виводимо пов≥домленн€ про помилку
-        std::cout << "\nUnable to open file." << std::endl;
+        std::cout << "\nЌе вдалось в≥дкрити файл." << std::endl;
     }
 }
 
@@ -36,7 +36,7 @@ void CriminalGroup::inputInfo()
     CriminalGroup newCriminalGroup;
 
     // «апитуЇмо користувача ввести назву групи
-    std::cout << "Enter criminal group name: ";
+    std::cout << "¬вед≥ть назву орган≥зац≥њ: ";
     std::getline(std::cin, newCriminalGroup.name);
     bool active = true;
     // ќчищуЇмо консоль
@@ -44,10 +44,10 @@ void CriminalGroup::inputInfo()
     do
     {
         // ѕропонуЇмо користувачу додати нового члена
-        std::cout << "Add member?\n";
-        std::cout << "1. Yes\n";
-        std::cout << "2. No\n";
-        std::cout << "Enter your choice: ";
+        std::cout << "ќдразу додати учасника?\n";
+        std::cout << "1. “ак\n";
+        std::cout << "2. Ќ≥\n";
+        std::cout << "ќбер≥ть опц≥ю: ";
         int choice;
         std::cin >> choice;
         if (choice == 1)
@@ -56,9 +56,9 @@ void CriminalGroup::inputInfo()
             system("cls");
             std::string firstName, lastName;
 
-            std::cout << "Enter the FIRST name of the criminal to add: ";
+            std::cout << "¬вед≥ть ≥м'€ злочинц€: ";
             std::cin >> firstName;
-            std::cout << "Enter the LAST name of the criminal to add: ";
+            std::cout << "¬вед≥ть пр≥звище злочинц€: ";
             std::cin >> lastName;
 
             // ЎукаЇмо злочинц€ за ≥м'€м ≥ пр≥звищем
@@ -68,13 +68,13 @@ void CriminalGroup::inputInfo()
                 // якщо знайдено, додаЇмо його до групи
                 newCriminalGroup.addMember(criminal);
                 system("cls");
-                std::cout << "Criminal added successfully.\n\n";
+                std::cout << "«лочинц€ усп≥шно додано до орган≥зац≥њ.\n\n";
             }
             else
             {
                 // якщо не знайдено, виводимо в≥дпов≥дне пов≥домленн€
                 system("cls");
-                std::cout << "Criminal not found.\n\n";
+                std::cout << "«лочинц€ не знайдено.\n\n";
             }
         }
         else
@@ -103,7 +103,7 @@ void CriminalGroup::displayCriminalGroups()
     if (!file.is_open())
     {
         // якщо не вдалос€ в≥дкрити файл, виводимо пов≥домленн€ про помилку
-        std::cerr << "Unable to open file." << std::endl;
+        std::cerr << "Ќе вдалось в≥дкрити файл." << std::endl;
         return;
     }
 
@@ -118,7 +118,7 @@ void CriminalGroup::displayCriminalGroups()
         group.setGroupName(line);
 
         // ¬иводимо назву групи
-        std::cout << "Group: " << group.getGroupName() << std::endl;
+        std::cout << "ќрган≥зац≥€: " << group.getGroupName() << std::endl;
 
         // «читуЇмо член≥в групи до розд≥лювача '---'
         while (std::getline(file, line) && line != "---")
@@ -138,7 +138,7 @@ void CriminalGroup::displayCriminalGroups()
         // ¬иводимо вс≥х член≥в групи
         for (const auto& member : group.getMembers())
         {
-            std::cout << "  Member: " << member.getFirstName() << " " << member.getLastName() << std::endl;
+            std::cout << "  ”часник: " << member.getFirstName() << " " << member.getLastName() << std::endl;
         }
 
         std::cout << "-------------\n";
@@ -206,7 +206,7 @@ void CriminalGroup::removeGroupFromFile(const std::string& groupName)
     if (!file.is_open() || !tempFile.is_open())
     {
         // якщо файл не вдалос€ в≥дкрити, виводимо пов≥домленн€ про помилку
-        std::cout << "Unable to open file." << std::endl;
+        std::cout << "Ќе вдалось в≥дкрити файл." << std::endl;
         return;
     }
 
@@ -246,11 +246,11 @@ void CriminalGroup::removeGroupFromFile(const std::string& groupName)
 
     if (groupFound)
     {
-        std::cout << "Group '" << groupName << "' has been removed successfully." << std::endl;
+        std::cout << "ќрган≥зац≥€ '" << groupName << "' була усп≥шно видалена." << std::endl;
     }
     else
     {
-        std::cout << "Group '" << groupName << "' not found." << std::endl;
+        std::cout << "ќрган≥зац≥€ '" << groupName << "' не знайдена." << std::endl;
     }
 }
 
@@ -266,7 +266,7 @@ void CriminalGroup::removeMember(const std::string& groupName, const std::string
     // ѕерев≥р€Їмо, чи вдалос€ в≥дкрити обидва файли
     if (!file.is_open() || !tempFile.is_open())
     {
-        std::cout << "Unable to open file." << std::endl;
+        std::cout << "Ќе вдалось в≥дкрити файл." << std::endl;
         return;
     }
 
@@ -318,5 +318,5 @@ void CriminalGroup::removeMember(const std::string& groupName, const std::string
 
     // ќчищуЇмо екран ≥ пов≥домл€Їмо, що процес видаленн€ завершений
     system("cls");
-    std::cout << "Member removal process completed." << std::endl;
+    std::cout << "”часника усп≥шно видалено." << std::endl;
 }
