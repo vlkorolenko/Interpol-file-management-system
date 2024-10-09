@@ -1,7 +1,7 @@
 #include "CriminalGroup.h"
 #include "Criminal.h"
 
-// Функція збереження групи злочинців у файл
+// Метод для збереження групи злочинців у файл
 void CriminalGroup::saveToFile(const CriminalGroup& criminalgroup)
 {
     // Відкриваємо файл у режимі додавання
@@ -28,7 +28,7 @@ void CriminalGroup::saveToFile(const CriminalGroup& criminalgroup)
     }
 }
 
-// Функція введення інформації про групу злочинців
+// Метод для введення інформації про групу злочинців
 void CriminalGroup::inputInfo()
 {
     // Очищуємо вхідний потік, щоб уникнути проблем зі зчитуванням
@@ -85,14 +85,14 @@ void CriminalGroup::inputInfo()
     saveToFile(newCriminalGroup);
 }
 
-// Функція додавання члена групи
+// Метод для додавання члена групи
 void CriminalGroup::addMember(const Criminal& criminal)
 {
     // Додаємо злочинця до вектора членів групи
     members.push_back(criminal);
 }
 
-// Функція виведення всіх груп злочинців
+// Метод для виведення всіх груп злочинців
 void CriminalGroup::displayCriminalGroups()
 {
     // Відкриваємо файл для читання
@@ -145,7 +145,7 @@ void CriminalGroup::displayCriminalGroups()
     file.close();
 }
 
-// Функція завантаження груп злочинців із файлу
+// Метод для завантаження груп злочинців із файлу
 std::vector<CriminalGroup> CriminalGroup::loadFromFile()
 {
     std::vector<CriminalGroup> groups;
@@ -191,7 +191,7 @@ std::vector<CriminalGroup> CriminalGroup::loadFromFile()
     return groups;
 }
 
-// Функція видалення групи з файлу
+// Метод для видалення групи з файлу
 void CriminalGroup::removeGroupFromFile(const std::string& groupName)
 {
     std::ifstream file("groups.txt");
@@ -251,7 +251,7 @@ void CriminalGroup::removeGroupFromFile(const std::string& groupName)
     }
 }
 
-// Функція видалення члена групи
+// Метод для видалення члена групи
 void CriminalGroup::removeMember(const std::string& groupName, const std::string& memberFirstName, const std::string& memberLastName)
 {
     // Відкриваємо файл "groups.txt" для читання та "temp.txt" для тимчасового запису

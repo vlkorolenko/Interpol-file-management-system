@@ -5,6 +5,9 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <iomanip>
+#include <ctime>
+#include <algorithm>
 #include "Person.h"
 #include "ISearchable.h"
 #include "CriminalGroup.h"
@@ -111,7 +114,8 @@ public:
     // Оператор переміщення
     Criminal& operator=(Criminal&& other) noexcept
     {
-        if (this != &other) {
+        if (this != &other)
+        {
             id = std::move(other.id);
             firstName = std::move(other.firstName);
             lastName = std::move(other.lastName);
@@ -134,6 +138,7 @@ public:
     // Деструктор
     ~Criminal() {}
 
+    // Getters & Setters
     int getId() const { return id; }
     std::string getLastName() const {return lastName;}
     std::string getFirstName() const { return firstName; }
@@ -142,14 +147,21 @@ public:
 
     void inputInfo();
     void saveToFile(const Criminal& criminal);
+
     void archiveCriminal(const Criminal& criminal);
-    void removeFromActiveList(const int& id);
-    Criminal findCriminalByName(const std::string& firstName, std::string& lastName);
     void searchByCriteria() const override;
     void displayResults() const override;
     bool isCriminalInGroup(const CriminalGroup& group, const Criminal& criminal);
+
     void removeFromArchive(const int& id);
+    void removeFromActiveList(const int& id);
+
+    Criminal findCriminalByName(const std::string& firstName, std::string& lastName);
     Criminal findCriminalByIdInArchive(const int& id);
     int findMaxIdInFile();
     Criminal findCriminalById(const int& id);
+
+    void sortCriminalByHeight();
+    void sortCriminalByLastName();
+    void sortCriminalByFirstName();
 };

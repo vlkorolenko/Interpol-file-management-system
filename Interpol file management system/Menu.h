@@ -23,4 +23,5 @@ public:
 	void displayCriminalGroups();
 	void displayUserGuide();
 	void displayInstructions(int choice);
+	void displaySortMenu();
 };

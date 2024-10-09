@@ -1,4 +1,5 @@
 ﻿#include "Criminal.h"
+#include "Menu.h"
 
 // Завантаження злочинців із файлу в базу даних
 void Criminal::loadCriminalsFromFile()
@@ -549,31 +550,35 @@ Criminal Criminal::findCriminalByIdInArchive(const int& id)
     return foundCriminal; // Повертаємо знайденого злочинця або порожній об'єкт, якщо не знайдено
 }
 
+// Метод для пошуку максимального ID злочинця у файлі criminals.txt
 int Criminal::findMaxIdInFile()
 {
+    // Відкриваємо файл для зчитування даних злочинців.
     std::ifstream file("criminals.txt");
     if (!file.is_open()) {
-        throw std::runtime_error("Не вдалося відкрити файл з даними злочинців.");
+        throw std::runtime_error("Не вдалося відкрити файл з даними злочинців."); // Обробка помилки відкриття файлу.
     }
 
-    int maxId = 0;
+    int maxId = 0; // Змінна для зберігання максимального id.
     std::string line;
+    // Читаємо файл рядок за рядком.
     while (std::getline(file, line)) {
-        std::istringstream iss(line);
+        std::istringstream iss(line); // Створення стріму для обробки рядка.
         std::string idStr;
 
-        // Зчитуємо перше поле — id (до першої коми)
+        // Зчитуємо перше поле — id (до першої коми).
         if (std::getline(iss, idStr, ',')) {
-            int currentId = std::stoi(idStr);
-            if (currentId > maxId) {
-                maxId = currentId;
+            int currentId = std::stoi(idStr); // Перетворення рядка в ціле число.
+            if (currentId > maxId) { // Якщо знайдене більше значення id.
+                maxId = currentId; // Оновлюємо maxId.
             }
         }
     }
-    file.close();
-    return maxId;
+    file.close(); // Закриваємо файл після зчитування.
+    return maxId; // Повертаємо максимальний id.
 }
 
+// Метод для пошуку злочинця по вказаному ID
 Criminal Criminal::findCriminalById(const int& id)
 {
     std::ifstream inFile("criminals.txt"); // Відкриваємо файл архіву для читання
@@ -614,4 +619,156 @@ Criminal Criminal::findCriminalById(const int& id)
         }
     }
     return foundCriminal; // Повертаємо знайденого злочинця або порожній об'єкт, якщо не знайдено
+}
+
+// Метод для сортування злочинців по зросту
+void Criminal::sortCriminalByHeight()
+{
+    loadCriminalsFromFile();  // Завантажуємо дані
+
+    int order;
+    std::cout << "Оберіть порядок сортування:\n1. За зростанням\n2. За спаданням\n";
+    std::cin >> order;
+    system("cls");
+    if (order == 1) {
+        // Сортуємо за зростом за зростанням
+        std::sort(criminalDatabase.begin(), criminalDatabase.end(),
+            [](const Criminal& a, const Criminal& b) {
+                return a.height < b.height;
+            });
+    }
+    else if (order == 2) {
+        // Сортуємо за зростом за спаданням
+        std::sort(criminalDatabase.begin(), criminalDatabase.end(),
+            [](const Criminal& a, const Criminal& b) {
+                return a.height > b.height;
+            });
+    }
+    else {
+        std::cout << "Невірний вибір. Сортування не виконано.\n";
+        return;
+    }
+
+    // Виводимо відсортованих злочинців
+    for (const auto& criminal : criminalDatabase)
+    {
+        std::cout << "ID: " << criminal.id << std::endl;
+        std::cout << "Ім'я: " << criminal.firstName << std::endl;
+        std::cout << "Прізвище: " << criminal.lastName << std::endl;
+        std::cout << "Кличка: " << criminal.nickname << std::endl;
+        std::cout << "Зріст: " << criminal.height << std::endl;
+        std::cout << "Колір очей: " << criminal.eyeColor << std::endl;
+        std::cout << "Колір волосся: " << criminal.hairColor << std::endl;
+        std::cout << "Особливі прикмети: " << criminal.specialFeatures << std::endl;
+        std::cout << "Національність: " << criminal.nationality << std::endl;
+        std::cout << "Дата народження: " << criminal.birthDate << std::endl;
+        std::cout << "Місце народження: " << criminal.birthPlace << std::endl;
+        std::cout << "Останнє місце перебування: " << criminal.lastResidence << std::endl;
+        std::cout << "Знання законів: " << criminal.lawKnowledge << std::endl;
+        std::cout << "Кримінальна професія: " << criminal.criminalProfession << std::endl;
+        std::cout << "Останній злочин: " << criminal.lastCrime << std::endl;
+        std::cout << "-------------\n";
+    }
+}
+
+// Метод для сортування злочинців по прізвищу
+void Criminal::sortCriminalByLastName()
+{
+    loadCriminalsFromFile();  // Завантажуємо дані
+
+    int order;
+    std::cout << "Оберіть порядок сортування:\n1. За алфавітом\n2. В зворотньому порядку\n";
+    std::cin >> order;
+    system("cls");
+
+    if (order == 1) {
+        // Сортування за алфавітом (прізвище)
+        std::sort(criminalDatabase.begin(), criminalDatabase.end(),
+            [](const Criminal& a, const Criminal& b) {
+                return a.lastName < b.lastName;
+            });
+    }
+    else if (order == 2) {
+        // Сортування у зворотному алфавітному порядку
+        std::sort(criminalDatabase.begin(), criminalDatabase.end(),
+            [](const Criminal& a, const Criminal& b) {
+                return a.lastName > b.lastName;
+            });
+    }
+    else {
+        std::cout << "Невірний вибір. Сортування не виконано.\n";
+        return;
+    }
+
+    // Виводимо відсортованих злочинців
+    for (const auto& criminal : criminalDatabase)
+    {
+        std::cout << "ID: " << criminal.id << std::endl;
+        std::cout << "Ім'я: " << criminal.firstName << std::endl;
+        std::cout << "Прізвище: " << criminal.lastName << std::endl;
+        std::cout << "Кличка: " << criminal.nickname << std::endl;
+        std::cout << "Зріст: " << criminal.height << std::endl;
+        std::cout << "Колір очей: " << criminal.eyeColor << std::endl;
+        std::cout << "Колір волосся: " << criminal.hairColor << std::endl;
+        std::cout << "Особливі прикмети: " << criminal.specialFeatures << std::endl;
+        std::cout << "Національність: " << criminal.nationality << std::endl;
+        std::cout << "Дата народження: " << criminal.birthDate << std::endl;
+        std::cout << "Місце народження: " << criminal.birthPlace << std::endl;
+        std::cout << "Останнє місце перебування: " << criminal.lastResidence << std::endl;
+        std::cout << "Знання законів: " << criminal.lawKnowledge << std::endl;
+        std::cout << "Кримінальна професія: " << criminal.criminalProfession << std::endl;
+        std::cout << "Останній злочин: " << criminal.lastCrime << std::endl;
+        std::cout << "-------------\n";
+    }
+}
+
+// Метод для сортування злочинців по імені
+void Criminal::sortCriminalByFirstName()
+{
+    loadCriminalsFromFile();  // Завантажуємо дані
+
+    int order;
+    std::cout << "Оберіть порядок сортування:\n1. За алфавітом\n2. В зворотньому порядку\n";
+    std::cin >> order;
+    system("cls");
+
+    if (order == 1) {
+        // Сортування за алфавітом (прізвище)
+        std::sort(criminalDatabase.begin(), criminalDatabase.end(),
+            [](const Criminal& a, const Criminal& b) {
+                return a.firstName < b.firstName;
+            });
+    }
+    else if (order == 2) {
+        // Сортування у зворотному алфавітному порядку
+        std::sort(criminalDatabase.begin(), criminalDatabase.end(),
+            [](const Criminal& a, const Criminal& b) {
+                return a.firstName > b.firstName;
+            });
+    }
+    else {
+        std::cout << "Невірний вибір. Сортування не виконано.\n";
+        return;
+    }
+
+    // Виводимо відсортованих злочинців
+    for (const auto& criminal : criminalDatabase)
+    {
+        std::cout << "ID: " << criminal.id << std::endl;
+        std::cout << "Ім'я: " << criminal.firstName << std::endl;
+        std::cout << "Прізвище: " << criminal.lastName << std::endl;
+        std::cout << "Кличка: " << criminal.nickname << std::endl;
+        std::cout << "Зріст: " << criminal.height << std::endl;
+        std::cout << "Колір очей: " << criminal.eyeColor << std::endl;
+        std::cout << "Колір волосся: " << criminal.hairColor << std::endl;
+        std::cout << "Особливі прикмети: " << criminal.specialFeatures << std::endl;
+        std::cout << "Національність: " << criminal.nationality << std::endl;
+        std::cout << "Дата народження: " << criminal.birthDate << std::endl;
+        std::cout << "Місце народження: " << criminal.birthPlace << std::endl;
+        std::cout << "Останнє місце перебування: " << criminal.lastResidence << std::endl;
+        std::cout << "Знання законів: " << criminal.lawKnowledge << std::endl;
+        std::cout << "Кримінальна професія: " << criminal.criminalProfession << std::endl;
+        std::cout << "Останній злочин: " << criminal.lastCrime << std::endl;
+        std::cout << "-------------\n";
+    }
 }

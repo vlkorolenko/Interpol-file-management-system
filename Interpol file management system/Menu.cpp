@@ -28,19 +28,20 @@ int Menu::displayMenu()
             std::cout << "3. Архівувати злочинця\n";
             std::cout << "4. Видалити злочинця після смерті\n";
             std::cout << "5. Пошук злочинця за критерією\n";
-            std::cout << "6. Додати нову організацію\n";
-            std::cout << "7. Переглянути список злочинних організацій\n";
-            std::cout << "8. Оновити інформацію про організацію\n";
-            std::cout << "9. Архів\n";
-            std::cout << "10. Посібник користувача\n";
-            std::cout << "11. [Вийти]\n";
+            std::cout << "6. Відсортувати злочинців\n";
+            std::cout << "7. Додати нову організацію\n";
+            std::cout << "8. Переглянути список злочинних організацій\n";
+            std::cout << "9. Оновити інформацію про організацію\n";
+            std::cout << "10. Архів\n";
+            std::cout << "11. Посібник користувача\n";
+            std::cout << "12. [Вийти]\n";
             std::cout << "Оберіть опцію: ";
 
             int option;
             std::cin >> option;  // Введення вибору користувача
 
             // Перевірка на коректність введення
-            if (std::cin.fail() || option > 11 || option <= 0)
+            if (std::cin.fail() || option > 12 || option <= 0)
             {
                 std::cin.clear();  // Очищуємо прапорець помилки вводу
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Пропускаємо некоректні символи
@@ -112,31 +113,35 @@ int Menu::displayMenu()
                 break;
             case 6:
                 system("cls");  // Очищуємо екран
+                displaySortMenu();
+                break;
+            case 7:
+                system("cls");  // Очищуємо екран
                 {
                     CriminalGroup criminalGroup;
                     addCriminalGroup(criminalGroup);  // Викликаємо функцію для додавання нової організації
                 }
                 break;
-            case 7:
+            case 8:
                 system("cls");  // Очищуємо екран
                 {
                     CriminalGroup criminalGroup;
                     criminalGroup.displayCriminalGroups();  // Виведення списку організацій
                 }
                 break;
-            case 8:
+            case 9:
                 system("cls");  // Очищуємо екран
                 displayCriminalGroups();  // Відображення даних про організації
                 break;
                 break;
-            case 9:
+            case 10:
                 system("cls");  // Очищуємо екран
                 displayArchive();  // Відображення архіву
                 break;
-            case 10:
+            case 11:
                 displayUserGuide();
                 break;
-            case 11:
+            case 12:
                 cout << "Вихід...\n";  // Повідомлення про вихід
                 return 0;  // Завершення програми
             }
@@ -345,7 +350,7 @@ void Menu::displayArchive()
     }
 }
 
-// Виведення меню зі злочинними організаціями
+// Метод для виведення меню зі злочинними організаціями
 void Menu::displayCriminalGroups()
 {
     // Завантаження груп злочинців із файлу
@@ -533,9 +538,12 @@ void Menu::displayCriminalGroups()
     }
 }
 
+// Метод для виведення посібника користувача
 void Menu::displayUserGuide()
 {
-    system("cls");
+    system("cls"); // Очищаємо екран перед виведенням нової інформації.
+
+    // Виводимо заголовок і список дій, для яких можна отримати інструкції.
     std::cout << "-------- Посібник користувача --------" << std::endl;
     std::cout << "Оберіть дію для перегляду інструкції:\n";
     std::cout << "1. Як додати нового злочинця\n";
@@ -543,17 +551,21 @@ void Menu::displayUserGuide()
     std::cout << "3. Як архівувати злочинця\n";
     std::cout << "4. Як видалити злочинця після смерті\n";
     std::cout << "5. Як здійснити пошук злочинців за критеріями\n";
-    std::cout << "6. Як додати нову кримінальну організацію\n";
-    std::cout << "7. Як переглянути список кримінальних організацій\n";
-    std::cout << "8. Як оновити дані організації\n";
-    std::cout << "9. Як переглянути архів\n";
+    std::cout << "6. Як здійснити сортування злочинців\n";
+    std::cout << "7. Як додати нову кримінальну організацію\n";
+    std::cout << "8. Як переглянути список кримінальних організацій\n";
+    std::cout << "9. Як оновити дані організації\n";
+    std::cout << "10. Як переглянути архів\n";
     std::cout << "---------------------------------------" << std::endl;
+
+    // Запитуємо вибір користувача для відображення відповідних інструкцій.
     std::cout << "\nОберіть опцію: ";
     int choice;
     cin >> choice;
-    displayInstructions(choice);
+    displayInstructions(choice); // Викликаємо функцію для відображення інструкцій на основі вибору.
 }
 
+// Метод для виведення інструкцій у посібнику користувача
 void Menu::displayInstructions(int choice)
 {
     switch (choice) {
@@ -592,31 +604,38 @@ void Menu::displayInstructions(int choice)
         break;
     case 6:
         system("cls");
+        std::cout << "Інструкція: Як здійснити сортування злочинців\n";
+        std::cout << "1. Виберіть опцію 'Сортування' у головному меню.\n";
+        std::cout << "2. Оберіть тип сортування (по імені, прізвищу або зросту).\n";
+        std::cout << "3. Результати сортування будуть відображені на екрані.\n\n\n";
+        break;
+    case 7:
+        system("cls");
         std::cout << "Інструкція: Як додати нову кримінальну організацію\n";
         std::cout << "1. Виберіть опцію 'Додати нову організацію' у головному меню.\n";
         std::cout << "2. Введіть назву організації та інші запитувані дані.\n";
         std::cout << "3. Організація буде додана до бази даних.\n\n\n";
         break;
-    case 7:
+    case 8:
         system("cls");
         std::cout << "Інструкція: Як переглянути список кримінальних організацій\n";
         std::cout << "1. Виберіть опцію 'Переглянути список кримінальних організацій' у головному меню.\n";
         std::cout << "2. Ви побачите список усіх організацій, що є в базі даних.\n\n\n";
         break;
-    case 8:
+    case 9:
         system("cls");
         std::cout << "Інструкція: Як оновити дані організації\n";
         std::cout << "1. Виберіть опцію 'Оновити інформацію про організацію' у головному меню.\n";
         std::cout << "2. Введіть нові дані для організації, яку потрібно оновити.\n";
         std::cout << "3. Після підтвердження дані організації будуть оновлені.\n\n\n";
         break;
-    case 9:
+    case 10:
         system("cls");
         std::cout << "Інструкція: Як переглянути архів\n";
         std::cout << "1. Виберіть опцію 'Архів' у головному меню.\n";
         std::cout << "2. Ви побачите список архівованих злочинців та організацій.\n\n\n";
         break;
-    case 10:
+    case 11:
         system("cls");
         std::cout << "Інструкція: Як переглянути посібник користувача\n";
         std::cout << "1. Виберіть опцію 'Посібник користувача' у головному меню.\n";
@@ -626,5 +645,63 @@ void Menu::displayInstructions(int choice)
         system("cls");
         std::cout << "Некоректний вибір. Спробуйте ще раз.\n\n\n";
         break;
+    }
+}
+
+// Метод для виведення меню сортування
+void Menu::displaySortMenu()
+{
+    try
+    {
+        // Виведення меню сортування.
+        cout << "Оберіть тип сортування: \n";
+        cout << "1. По імені\n";
+        cout << "2. По прізвищу\n";
+        cout << "3. По зросту\n";
+        std::cout << "Оберіть опцію: ";
+        int option;
+        std::cin >> option;
+
+        // Перевірка на коректність введеного значення.
+        if (std::cin.fail() || option < 1 || option > 3)
+        {
+            system("cls");
+            throw std::invalid_argument("Неправильний вибір опції. Введіть число від 1 до 3.");
+        }
+
+        Criminal criminal;  // Створення об'єкта Criminal.
+
+        switch (option)
+        {
+        case 1:
+            system("cls");
+            criminal.sortCriminalByFirstName();  // Сортування за ім'ям.
+            break;
+
+        case 2:
+            system("cls");
+            criminal.sortCriminalByLastName();  // Сортування за прізвищем.
+            break;
+
+        case 3:
+            system("cls");
+            criminal.sortCriminalByHeight();  // Сортування за зростом.
+            break;
+
+        default:
+            throw std::invalid_argument("Неправильний вибір.");
+        }
+    }
+    catch (const std::invalid_argument& e)
+    {
+        // Обробка помилки вводу.
+        std::cerr << "Помилка: " << e.what() << std::endl;
+        std::cin.clear(); // Скидання стану потоку.
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ігнорування неправильного введення.
+    }
+    catch (const std::exception& e)
+    {
+        // Загальна обробка помилок.
+        std::cerr << "Виникла помилка: " << e.what() << std::endl;
     }
 }
